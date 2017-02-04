@@ -1,5 +1,7 @@
 platforms/*/build
 platforms/*/*/build
+platforms/android/assets/*
+platforms/android/.gradle
 platforms/android/bin
 platforms/android/gen
 platforms/android/local.properties
