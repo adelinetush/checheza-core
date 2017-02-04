@@ -1,5 +1,5 @@
-/platforms/*/build
-platforms/android/assets/www
+platforms/*/build
+platforms/*/*/build
 platforms/android/bin
 platforms/android/gen
 platforms/android/local.properties
