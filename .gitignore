@@ -1,6 +1,6 @@
 platforms/*/build
 platforms/*/*/build
-platforms/android/assets/*
+platforms/android/assets/www/*
 platforms/android/.gradle
 platforms/android/bin
 platforms/android/gen
