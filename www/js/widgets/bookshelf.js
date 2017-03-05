@@ -3,6 +3,19 @@ var Bookshelf = function(){
   this.currentPage = 1;
   this.currentBook;
 
+  var elem = document.getElementById('swipe');
+  window.mySwipe = Swipe(elem);
+
+  $("body").swipe( {
+    swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+      if(direction == "left") {
+        mySwipe.next();
+      } else {
+        mySwipe.prev();
+      }
+    }
+  });
+
   $('.book_preview').click(function(e) {
     if(e.target.className == "cover_thumb") {
       currentWidget.openBook(e.target.parentElement.id);
@@ -19,10 +32,66 @@ var Bookshelf = function(){
           path: 'widgets/bookshelf/books/swahili/mlinzi_na_chekechea_yake_ya_kipekee/',
           cover_picture: 'page1.png',
           pages: 22
+        },
+        'naweza_fanya_hivi': {
+          name: 'Naweza Fanya Hivi',
+          path: 'widgets/bookshelf/books/swahili/naweza_fanya_hivi/',
+          cover_picture: 'page1.png',
+          pages: 10
+        },
+        'ninapenda_kusoma': {
+          name: 'Ninapenda Kusoma',
+          path: 'widgets/bookshelf/books/swahili/ninapenda_kusoma/',
+          cover_picture: 'page1.png',
+          pages: 10
+        },
+        'mimi_na_familia_yangu': {
+          name: 'Mimi Na Familia Yangu',
+          path: 'widgets/bookshelf/books/swahili/mimi_na_familia_yangu/',
+          cover_picture: 'page1.png',
+          pages: 11
+        },
+        'maharagwe_yanayomea': {
+          name: 'Maharagwe Yanayomea',
+          path: 'widgets/bookshelf/books/swahili/maharagwe_yanayomea/',
+          cover_picture: 'page1.png',
+          pages: 9
+        },
+        'hadithi_ya_wa_nagari_maathai': {
+          name: 'Mlinzi Na Chekechea Yake Ya Kipekee',
+          path: 'widgets/bookshelf/books/swahili/hadithi_ya_wa_nagari_maathai/',
+          cover_picture: 'page1.png',
+          pages: 14
+        },
+        'mtoto_wa_tembo_mdadisi': {
+          name: 'Mtoto Wa Tembo Mdadisi',
+          path: 'widgets/bookshelf/books/swahili/mtoto_wa_tembo_mdadisi/',
+          cover_picture: 'page1.png',
+          pages: 23
+        },
+        'wanyama_wa_kufugwa': {
+          name: 'Wanyama Wa Kufugwa',
+          path: 'widgets/bookshelf/books/swahili/wanyama_wa_kufugwa/',
+          cover_picture: 'page1.png',
+          pages: 10
         }
       }
   }
 
+  /*
+  this.populateBookshelf = function() {
+    var count = 0;
+    for(var i = 0; i < len(this.Books["swahili"])) {
+      if(count == 0) {
+        $('.swipe_wrap').append(this.Books.swahili[i]);
+      }
+      if(count == 2) {
+        count = 0;
+      }
+      count++;
+    }
+  }
+  */
   this.left = function() {
     this.changePage(this.currentPage-1);
   }
@@ -69,22 +138,22 @@ var Bookshelf = function(){
         _self.currentBook = _self.books.swahili[id];
 
         for(var i = 1; i <= _self.books.swahili[id].pages; i++) {
-            $('.page_viewer').append('<img class="page" src="'+_self.books.swahili[id].path+'page'+i+'.png">');
+            console.log("Der?");
+            $('.swipe-wrap').append('<div><img class="page" src="'+_self.books.swahili[id].path+'page'+i+'.png"></div>');
         }
 
-        if(_self.books.swahili[id].pages > 1) {
+        var elm = document.getElementById('swipe_book');
+        window.bookSwipe = Swipe(elm);
 
-          $('.page_right').click(function() {
-            _self.right()
-          });
-
-          $('.page_left').click(function() {
-            _self.left();
-          });
-
-          $('.page_right').hide().fadeIn(200);
-          $('.page_left').hide();
-        }
+        $("body").swipe( {
+          swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            if(direction == "left") {
+              bookSwipe.next();
+            } else {
+              bookSwipe.prev();
+            }
+          }
+        });
 
         $('.widgetBackground').hide().fadeIn(200);
     });

@@ -5,23 +5,40 @@
   width:100vw;
   height:100vh;
 }
+.swipe {
+
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+
+.swipe-wrap > div {
+  float:left;
+  position: relative;
+  overflow: hidden;
+}
 
 .book_preview {
-  width:28vw;
-  height:52vh;
-  background-size:100% 100%;
-  background-image:url("../imgs/book_cover.png");
-  position:absolute;
-  top:33vh;
-  left:35%;
+    width: 25vw;
+    height: 52vh;
+    background-size: 20vw 52vh;
+    background-position: 5vw;
+    background-image: url(../imgs/book_cover.png);
+    float: left;
+    padding-right: 8vw;
+    background-repeat: no-repeat;
 }
 
 .cover_thumb {
-  width: 23vw;
-  position: relative;
-  top: 5vh;
-  height: 19vh;
-  left: 8%;
+    width: 15vw;
+    position: relative;
+    top: 5vh;
+    height: 19vh;
+    left: 7.5vw;
 }
 
 .page {

@@ -42,6 +42,7 @@ var WidgetLoader = function(){
 
             _self.appendWidgetHistory(currentWidget);
 
+            /* This is where we bootstrap the currentwidget */
             if(widgetName == "treehouse") {
                 currentWidget = new Treehouse();
             }
