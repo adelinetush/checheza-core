@@ -1,8 +1,8 @@
-var tileImages_flipped = 0;
+var tileImages_flipped = 0,lastcardpicked = -1;
 flipArrayId = new Array();
 flipArray = new Array();
 function pickTile(tileimage, index, z) {
-    if (tileImages_flipped<2){
+    if (tileImages_flipped<2 && lastcardpicked != index){
     flipArray.push(tileimage)
     flipArrayId.push(z.id)
     tileImages_flipped++
@@ -10,12 +10,15 @@ function pickTile(tileimage, index, z) {
     if (tileImages_flipped==2) {
         if (flipArray[0]==flipArray[1]) {
             console.log("match");
+            pickAgain();
         } 
         else {
         console.log("no match");
-            setTimeout('hideTile(flipArrayId[0],flipArrayId[1])',500);
+        setTimeout('hideTile(flipArrayId[0],flipArrayId[1])',500);
+        // hideTile(flipArrayId[0],flipArrayId[1])
         }
         }
+        lastcardpicked = index;
     }
 }
 
@@ -25,9 +28,17 @@ function hideTile(id0,id1){
         document.getElementById(id0).src = "widgets/memory/imgs/cardback.png"; }
     if (id1) {
         document.getElementById(id1).src = "widgets/memory/imgs/cardback.png"; }
+    pickAgain();
 }
 
 
+function pickAgain() {
+tileImages_flipped = 0;
+flipArrayId = [];
+lastcardpicked = -1;    
+flipArray = []; 
+}
+            
 var Memory = function() {
     var tileImages = ["ape.png", "black.png", "chicken.png", "dog.png", "elephant.png", "green.png", "hippo.png", "lamb.png", "orange.png"]
     var solutionArray = tileImages.concat(tileImages);
