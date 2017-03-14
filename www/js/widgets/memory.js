@@ -1,4 +1,5 @@
-var tileImages_flipped = 0,lastcardpicked = -1;
+var tileImages_flipped = 0,lastcardpicked = -1,score=0;
+var level=9;
 flipArrayId = new Array();
 flipArray = new Array();
 function pickTile(tileimage, index, z) {
@@ -11,11 +12,14 @@ function pickTile(tileimage, index, z) {
         if (flipArray[0]==flipArray[1]) {
             console.log("match");
             pickAgain();
+            score++
+            if (score==level){
+                gameFinished();
+            }
         } 
         else {
         console.log("no match");
         setTimeout('hideTile(flipArrayId[0],flipArrayId[1])',500);
-        // hideTile(flipArrayId[0],flipArrayId[1])
         }
         }
         lastcardpicked = index;
@@ -37,6 +41,10 @@ tileImages_flipped = 0;
 flipArrayId = [];
 lastcardpicked = -1;    
 flipArray = []; 
+}
+
+function gameFinished() {
+    console.log("game_done");
 }
             
 var Memory = function() {
