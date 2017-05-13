@@ -4,24 +4,29 @@
   background-repeat:none;
   width:100vw;
   height:100vh;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }
 
 #bookshelf {
-  width:15%;
-  height:20vh;
-  background-image:url("../imgs/bookshelf.png");
-  background-size:100% 100%;
-  position:absolute;
-  top:42vh;
-  left:0%;
+    width: 8%;
+    height: 23vh;
+    background-image: url(../imgs/bookshelf.png);
+    background-size: 100% 100%;
+    position: absolute;
+    top: 106vh;
+    left: 134%;
 }
 
 #memory {
-  background-image:url("../imgs/blocks.png");
-  width:13%;
-  height:17vh;
-  background-size:100% 100%;
-  position:absolute;
-  top:47vh;
-  left:45%;
+    background-image: url(../imgs/blocks.png);
+    width: 11%;
+    height: 14vh;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 138vh;
+    left: 78%;
 }

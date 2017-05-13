@@ -5,18 +5,46 @@
   width:100vw;
   height:100vh;
 }
-.swipe {
 
-  overflow: hidden;
-  visibility: hidden;
-  position: relative;
-}
-.swipe-wrap {
-  overflow: hidden;
-  position: relative;
+.exitBtn {
+  width:4vw;
+  height:5vh;
+  background-image:url("../imgs/exit.png");
+  background-size:100% 100%;
+  background-repeat:none;
+  position:absolute;
+  top:5vh;
+  left:91vw;
+  z-index:9999;
 }
 
-.swipe-wrap > div {
+.exitBtn_book {
+    width: 3vw;
+    height: 4vh;
+    background-image: url(../imgs/exit.png);
+    background-size: 100% 100%;
+    background-repeat: none;
+    position: absolute;
+    top: 90vh;
+    left: 48.5vw;
+    z-index: 9999;
+}
+
+img {
+  pointer-events: none;
+}
+
+#swipe {
+  width:300000px;
+  height:100vh;
+  overflow: visible;
+  visibility: visible;
+  position: absolute;
+  left:0px;
+  top:35vh;
+}
+
+#swipe > div {
   float:left;
   position: relative;
   overflow: hidden;
@@ -29,7 +57,7 @@
     background-position: 5vw;
     background-image: url(../imgs/book_cover.png);
     float: left;
-    padding-right: 8vw;
+    margin-right: 8vw;
     background-repeat: no-repeat;
 }
 
@@ -47,6 +75,7 @@
   left:0%;
   top:0vh;
   position:relative;
+  pointer-events:none;
 }
 
 .page_right {
