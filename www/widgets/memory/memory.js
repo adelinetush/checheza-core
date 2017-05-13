@@ -1,10 +1,10 @@
 var Memory = function(){
 	var tileSize =  80;
 	var tilesArray = [];
-    var selectedArray = [];
-    var tilesLeft = 0 ;
-	var game = new Phaser.Game(800, 700);
-    var timeLeft= 0;
+  var selectedArray = [];
+  var tilesLeft = 0 ;
+	var game = new Phaser.Game($(window).width(), $(window).height());
+  var timeLeft= 0;
 	var playGame = function(game){}
 	playGame.prototype = {
 		preload: function(){
