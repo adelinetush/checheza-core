@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "parrot.png",
+	"frame": {"x":0,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+{
+	"filename": "peacock.png",
+	"frame": {"x":80,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+{
+	"filename": "zz_cardback.png",
+	"frame": {"x":160,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "tiles2z-0.png",
+	"format": "RGBA8888",
+	"size": {"w":240,"h":80},
+	"scale": "0.243",
+	"smartupdate": "$TexturePacker:SmartUpdate:96f339a29b7d332bf167d7664e1220a5:3bc8f455e2f4ac38ee621a2e7e7e9e0e:77cb2c0e9b8f840ca0fa05879bf84422$"
+}
+}
