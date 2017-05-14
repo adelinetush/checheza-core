@@ -8,7 +8,7 @@ var Treehouse = function Treehouse() {
 //  }
 
   currentWidget = this;
-
+  var init = 1;
   this.resizeWorld = function() {
 
   	var windowSize = {
@@ -18,12 +18,19 @@ var Treehouse = function Treehouse() {
 
   	$('.widgetBackground').css('width', windowSize.x+'px');
   	$('.widgetBackground').css('height', windowSize.y+'px');
+  
+    if(init == 1) {
+      var curXPos = ($(window).width() * worldMultiplier / 2) - ($(window).width() / 2);
+      var curYPos = ($(window).height() * worldMultiplier / 2) - ($(window).height() / 3);
+      $(window).scrollTop(curYPos);
+      $(window).scrollLeft(curXPos);
+      init = 0;
+    }
   }
 
   var elm = document.getElementById('bg');
   var pan = new Hammer(document.body);
-  var curXPos = ($(window).width() * worldMultiplier / 2) - ($(window).width() / 2);
-  var curYPos = ($(window).height() * worldMultiplier / 2) - ($(window).height() / 2);
+
 
   $(document).bind("touchmove",function(event){
     event.preventDefault();
