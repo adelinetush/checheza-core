@@ -60,35 +60,35 @@ var Bookshelf = function(){
           name: 'The Sprouting Bean',
           id: 'the_sprouting_bean',
           path: 'widgets/bookshelf/books/english/the_sprouting_bean/',
-          cover_picture: 'page1.png',
+          cover_picture: 'front.png',
           pages: 9
         },
         'the_adventures_of_supercow': {
           name: 'The Adventures of Supercow',
           id: 'the_adventures_of_supercow',
           path: 'widgets/bookshelf/books/english/the_adventures_of_supercow/',
-          cover_picture: 'page1.png',
+          cover_picture: 'front.png',
           pages: 12
         },
         'tortoise_finds_his_house': {
           name: 'Tortoise Finds His House',
           id: 'tortoise_finds_his_house',
           path: 'widgets/bookshelf/books/english/tortoise_finds_his_house/',
-          cover_picture: 'page1.png',
+          cover_picture: 'front.png',
           pages: 17
         },
         'market_cows': {
           name: 'Market Cows',
           id: 'market_cows',
           path: 'widgets/bookshelf/books/english/market_cows/',
-          cover_picture: 'page1.png',
+          cover_picture: 'front.png',
           pages: 18
         },
         'holidays_with_grandmother': {
           name: 'Holidays with grandmother',
           id: 'holidays_with_grandmother',
           path: 'widgets/bookshelf/books/english/holidays_with_grandmother/',
-          cover_picture: 'page1.png',
+          cover_picture: 'front.png',
           pages: 22
         }
       }
@@ -120,20 +120,18 @@ var Bookshelf = function(){
     max_x = (($('.book_preview').width()  * parseInt($('.book_preview').length)) * -1);
   }, 1000);
   
-  var swipespeed = viewport_x / 150;
+  var swipespeed = viewport_x / 50;
   var hammertime = new Hammer(myElement);
   hammertime.on('panleft', function(ev) {
     $(".book_preview").css("pointer-events", "none");
     //console.log(posx);
     if(posx > max_x) {
-      
       if(ev.isFinal) { 
-        $('#swipe').animate({left: "-="+swipespeed * Math.abs(ev.velocityX)}, 300, function() {
-          $(".book_preview").css("pointer-events", "auto");
-        });
+        $(".book_preview").css("pointer-events", "auto");
       }
       else {
-        $('#swipe').css({left: "-="+swipespeed * Math.abs(ev.velocityX)})  
+        $('#swipe').css({left: "-="+swipespeed * Math.abs(ev.velocityX)});
+                $(".book_preview").css("pointer-events", "auto"); 
       }
     } else {
       if(ev.isFinal) { 
@@ -149,12 +147,12 @@ var Bookshelf = function(){
 
     if(posx <= 0) {
         if(ev.isFinal) {
-          $('#swipe').animate({left: "+="+swipespeed * Math.abs(ev.velocityX)}, 300, function(){
-            $(".book_preview").css("pointer-events", "auto");
-          });
+          $(".book_preview").css("pointer-events", "auto");
         }
         else {
           $('#swipe').css({left: "+="+swipespeed * Math.abs(ev.velocityX)})
+                  $(".book_preview").css("pointer-events", "auto");
+
         }
     } else {
       if(ev.isFinal) { 
