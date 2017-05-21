@@ -1,5 +1,6 @@
 var Memory = function(){
 	var tileSize =  80;
+  //test
 	var tilesArray = [];
   var selectedArray = [];
   var tilesLeft = 0 ;
