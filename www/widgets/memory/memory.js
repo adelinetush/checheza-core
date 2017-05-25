@@ -1,5 +1,5 @@
 var Memory = function(){
-	var tileSize =  80;
+	var tileSize =  100;
 	var tilesArray = [];
   var selectedArray = [];
   var tilesLeft = 0 ;
@@ -8,18 +8,108 @@ var Memory = function(){
 	var playGame = function(game){}
 	playGame.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles2z-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles1_100z-0.png", tileSize, tileSize);
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            //game.load.image("background", "widgets/memory/assets/imgs/background.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
 		},
 		create: function(){
+            this.scale.pageAlignVertically = true;
+            this.scale.pageAlignHorizontally = true;
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            //game.add.sprite(0,0,'background');
 			this.placeTiles();
+            sound=game.add.audio("pair");
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
+            //this.exitbutton.inputEnabled = true;
+            //this.exitbutton.input.pixelPerfectClick = true;
+            //this.exitbutton.events.onInputDown.add(this.exit, this);
 		},
+        //exit: function () {
+        //    this.WidgetLoader.loadWidget('treehouse');
+        //    console.log('pushed')
+        //},
+		placeTiles: function(){
+                var numRows = 1;
+	            var numCols = 2;
+	            var tileSpacing = 10;
+                var lastTile=1;
+                tilesLeft = numRows * numCols;
+                lastTile=(numRows*numCols);
+		    	var leftSpace = (game.width - (numCols * tileSize) - ((numCols - 1) * 	tileSpacing))/2;
+		    	var topSpace = (game.height - (numRows * tileSize) - ((numRows - 1) * 	tileSpacing))/2;
+			for(var i = 0; i < numRows * numCols; i++){
+				tilesArray.push(Math.floor(i / 2));
+			}
+               for(i = 0; i < numRows * numCols; i++){
+                    var from = game.rnd.between(0,tilesArray.length-1);
+                    var to = game.rnd.between(0, tilesArray.length-1);
+                    var temp = tilesArray[from];
+                    tilesArray[from] = tilesArray[to];
+                    tilesArray[to] = temp;
+               }
+			for(i = 0; i < numCols; i++){
+		     	for(var j = 0; j < numRows; j++){  
+		          	var tile = game.add.button(leftSpace + i * (tileSize +	tileSpacing), topSpace + j * (tileSize + tileSpacing), "tiles", this.showTile, this);
+		               tile.frame = 1;
+		               tile.value = tilesArray[j * numCols + i];
+		          }   
+		     }     
+		},
+		showTile: function(target){
+               if(selectedArray.length < 2 && selectedArray.indexOf(target) == -1){
+                    target.frame = target.value;
+                    selectedArray.push(target);
+                    if(selectedArray.length == 2){
+                         game.time.events.add(Phaser.Timer.SECOND, this.checkTiles, this);
+                    }
+               }
+          },
+          checkTiles: function(){          
+               if(selectedArray[0].value == selectedArray[1].value){
+                   sound.play();
+                    selectedArray[0].destroy();
+                    selectedArray[1].destroy();
+                    tilesLeft-=2;
+                   console.log(tilesLeft);
+                   if(tilesLeft <= 0){
+                      console.log(tilesLeft);
+                       tilesArray.length = 0;
+                       selectedArray.length = 0;
+                      game.state.start("Level1");  
+                   }
+               }
+               else{
+                    selectedArray[0].frame = 1;
+                    selectedArray[1].frame = 1;          
+               }
+               selectedArray.length = 0;
+          }          
+	}
+    //----------------------------------------level1---------------------------------------------
+    var level1 = function(game){}
+    level1.prototype = {
+		preload: function(){
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles2_100z-0.png", tileSize, tileSize);	
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
+
+		},
+		create: function(){
+            this.scale.pageAlignHorizontally = true;
+            this.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
+            timeLeft = 15;
+			this.placeTiles();
+            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+		    //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
+        },
 		placeTiles: function(){
                 var numRows = 2;
 	            var numCols = 2;
 	            var tileSpacing = 10;
-                var lastTile=2;
-                tilesLeft = numRows * numCols;
-                lastTile=(numRows*numCols);
+                var lastTile = 2;
+                tilesLeft = numCols*numRows;
 		    	var leftSpace = (game.width - (numCols * tileSize) - ((numCols - 1) * 	tileSpacing))/2;
 		    	var topSpace = (game.height - (numRows * tileSize) - ((numRows - 1) * 	tileSpacing))/2;
 			for(var i = 0; i < numRows * numCols; i++){
@@ -40,7 +130,16 @@ var Memory = function(){
 		          }   
 		     }     
 		},
-		showTile: function(target){
+        decreaseTime: function(){
+        timeLeft --;
+        console.log(timeLeft);
+            if(timeLeft == 0){
+                tilesArray.length = 0;
+                selectedArray.length = 0;
+          		game.state.start("Level1");  	
+     		}
+        },
+        showTile: function(target){
                if(selectedArray.length < 2 && selectedArray.indexOf(target) == -1){
                     target.frame = target.value;
                     selectedArray.push(target);
@@ -48,12 +147,13 @@ var Memory = function(){
                          game.time.events.add(Phaser.Timer.SECOND, this.checkTiles, this);
                     }
                }
-          },
-          checkTiles: function(){          
+        },
+        checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
-                    selectedArray[1].destroy();
-                    tilesLeft-=2;
+                  sound.play(); 
+                   selectedArray[0].destroy();
+                    selectedArray[1].destroy(); 
+                   tilesLeft-=2;
                    console.log(tilesLeft);
                    if(tilesLeft <= 0){
                       console.log(tilesLeft);
@@ -67,18 +167,26 @@ var Memory = function(){
                     selectedArray[1].frame = 2;          
                }
                selectedArray.length = 0;
-          }          
+          }
+        
 	}
+    
     //----------------------------------------level2---------------------------------------------
     var level2 = function(game){}
     level2.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles3z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles3_100z-0.png", tileSize, tileSize);	
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 20;
 			this.placeTiles();
-            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);            
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
 		},
 		placeTiles: function(){
                 var numRows = 2;
@@ -126,6 +234,7 @@ var Memory = function(){
         },
         checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
+                   sound.play();
                     selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
@@ -151,12 +260,18 @@ var Memory = function(){
     var level3 = function(game){}
     level3.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles5z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles5_100z-0.png", tileSize, tileSize);	
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 35;
 			this.placeTiles();
-            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);         
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
 		},
 		placeTiles: function(){
                 var numRows = 2;
@@ -204,7 +319,8 @@ var Memory = function(){
           },
           checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
+                    sound.play();
+                   selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
                    console.log(tilesLeft);
@@ -228,12 +344,18 @@ var Memory = function(){
     var level4 = function(game){}
     level4.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles8z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles8_100z-0.png", tileSize, tileSize);	
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");            
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 45;
 			this.placeTiles();
-            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);  
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
 		},
 		placeTiles: function(){
                 var numRows = 4;
@@ -281,7 +403,8 @@ var Memory = function(){
           },
           checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
+                      sound.play();
+                 selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
                    console.log(tilesLeft);
@@ -307,16 +430,22 @@ var Memory = function(){
     var level5 = function(game){}
     level5.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles12z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles12_100z-0.png", tileSize, tileSize);	
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")  
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");            
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 100;
 			this.placeTiles();
             game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
 		},
 		placeTiles: function(){
-                var numRows = 6;
-	            var numCols = 4;
+                var numRows = 4;
+	            var numCols = 6;
 	            var tileSpacing = 10;
                 var lastTile=12;
                 tilesLeft = numCols*numRows;
@@ -360,7 +489,8 @@ var Memory = function(){
           },
           checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
+                       sound.play();
+                selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
                    console.log(tilesLeft);
@@ -385,12 +515,18 @@ var Memory = function(){
     var level6 = function(game){}
     level6.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles16z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles16_100z-0.png", tileSize, tileSize);
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 130;
 			this.placeTiles();
-            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);     
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit")
 		},
 		placeTiles: function(){
                 var numRows = 8;
@@ -438,7 +574,8 @@ var Memory = function(){
           },
           checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
+                      sound.play();
+                 selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
                    console.log(tilesLeft);
@@ -462,12 +599,18 @@ var Memory = function(){
     var levelFinal = function(game){}
     levelFinal.prototype = {
 		preload: function(){
-			game.load.spritesheet("tiles", "widgets/memory/imgs/assets/tiles20z-2-0.png", tileSize, tileSize);	
+			game.load.spritesheet("tiles", "widgets/memory/assets/card_sprites/tiles20_100z-0.png", tileSize, tileSize);
+            game.load.image("exit", "widgets/memory/assets/imgs/exit.png")
+            game.load.audio("pair","widgets/memory/assets/sounds/good.wav");
 		},
 		create: function(){
+            game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            sound=game.add.audio("pair");
             timeLeft = 160;
 			this.placeTiles();
             game.time.events.loop(Phaser.Timer.SECOND, this.decreaseTime, this);
+            //this.exitbutton = this.game.add.sprite(this.game.world.width-80,60,"exit");
 		},
 		placeTiles: function(){
                 var numRows = 8;
@@ -515,7 +658,8 @@ var Memory = function(){
           },
           checkTiles: function(){          
                if(selectedArray[0].value == selectedArray[1].value){
-                    selectedArray[0].destroy();
+                      sound.play();
+                 selectedArray[0].destroy();
                     selectedArray[1].destroy(); 
                    tilesLeft-=2;
                    console.log(tilesLeft);
@@ -538,7 +682,7 @@ var Memory = function(){
     game.state.add("Level4", level4);
     game.state.add("Level3", level3);
     game.state.add("Level2", level2);
-    game.state.start("Level2");
+    game.state.add("Level1", level1);
 	game.state.add("PlayGame", playGame);
 	game.state.start("PlayGame");
     
