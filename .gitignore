@@ -1,4 +1,4 @@
 platforms/
 resources/signing
 .DS_Store
-
+plugins/
