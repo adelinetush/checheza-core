@@ -12,6 +12,9 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "se.laralearning.laraland.app"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "se.laralearning.laraland.app"
         }
     },
     "dependent_plugins": {
