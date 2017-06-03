@@ -2,3 +2,4 @@ platforms/
 resources/signing
 .DS_Store
 plugins/
+npm-debug.log
