@@ -7,6 +7,8 @@ class Bootloader {
     constructor() {
         _self = this;
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory+"www/addons", this.checkForSpecifications, fail);
+        $('.status').append('<p class="animated fadeInUp">Core Iniitialized...</p>');
+            $('.status').append('<p class="animated fadeInUp">Loading addons...</p>');
     }
 
     checkForSpecifications(entry) {
@@ -20,7 +22,6 @@ class Bootloader {
             });
         } else if(entry.isFile) {
             if(entry.name == "specification.json") {
-                console.log("Dave, I found a specification!");
                 _self.parseAddonSpecification(entry);
             }
         }
@@ -30,8 +31,9 @@ class Bootloader {
         addonSpecification.file(function (file) {
             var reader = new FileReader();
             reader.onloadend = function() {
-                loadedAddons.push(new Addon(JSON.parse(this.result)));                
-                console.log("Loaded addon: " + testAddon.name);
+                var addon = new Addon(JSON.parse(this.result), addonSpecification)
+                loadedAddons.push(addon);                
+                $('.status').append('<p class="animated fadeInUp">Loaded: '+addon.name+'...</p>');
             };
             reader.readAsText(file);
         });
@@ -43,4 +45,21 @@ function fail(e) {
     $("body").append(e)
 }
 
-document.addEventListener("deviceready", new Bootloader(), false);
+function tryInit() {
+    try {
+        new Bootloader();
+    } catch (err) {
+        tryInit();
+    }
+}
+
+document.addEventListener("deviceready", function (){         
+    $('.logo').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', 
+    function(){
+        $('.logo').removeClass('animated zoomInDown');
+        $('.logo').addClass('infinite pulse animated');
+        $('.status p').addClass('animated fadeInUp');
+        $('.status p').removeClass('hidden');
+    tryInit();
+    }); 
+}, false);
