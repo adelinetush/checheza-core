@@ -1,25 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>Laraland</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- App wide JS should be included here -->
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
-    <script type="text/javascript" src="./global/js/lib/jquery-3.1.1.min.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
 
-    <script type="text/javascript" src="./global/js/lib/hammer.js"></script>
-    <script type="text/javascript" src="./global/js/lib/touch-emulator.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="lib/lodash.js"></script>
+    <script type="text/javascript" src="core/core.boot.js"></script>
+    <script type="text/javascript" src="core/core.addons.js"></script>
+    <script type="text/javascript" src="core/core.js"></script>
 
-    <script type="text/javascript" src="./global/js/Widgets.js"></script>
-
-    <script type="text/javascript" src="./widgets/treehouse/treehouse.js"></script>
-    <script type="text/javascript" src="./widgets/memory/memory.js"></script>
-    <script type="text/javascript" src="./widgets/memory/phaser.js"></script>
-    <script type="text/javascript" src="./widgets/bookshelf/bookshelf.js"></script>
-    <script type="text/javascript" src="./global/js/AppController.js"></script>
-    <script type="text/javascript" src="./global/js/WidgetLoader.js"></script>
     <style>
       body { margin: 0px; padding: 0px; background-color:#d1b073; overflow:hidden;}
       img { outline: none; }
