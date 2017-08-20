@@ -2,6 +2,6 @@ platforms/
 resources/signing
 .DS_Store
 plugins/
-node_modules/*
+node_modules/
 npm-debug.log
 */.*O
