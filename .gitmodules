@@ -1,0 +1,3 @@
+[submodule "www/addons/treehouse-addon"]
+	path = www/addons/treehouse-addon
+	url = https://github.com/laralearning/treehouse-addon

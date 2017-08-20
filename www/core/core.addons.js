@@ -4,6 +4,7 @@
  */
 
 class Addon {
+
 	constructor (specification, meta) {
 		this.name 			= specification.Name;
 		this.identifier 	= specification.AddonIdentifier;
@@ -18,4 +19,5 @@ class Addon {
 	start() {
 		$('body').append(mainview);
 	}
+
 }
