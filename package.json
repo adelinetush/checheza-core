@@ -1,20 +1,20 @@
 {
-  "name": "se.laralearning.laraland.app",
-  "version": "1.0.0",
-  "displayName": "Laraland",
-  "cordova": {
-    "platforms": [
-      "android"
-    ],
-    "plugins": {
-      "cordova-plugin-whitelist": {},
-      "cordova-plugin-file": {}
+    "name": "se.laralearning.laraland.app",
+    "version": "1.0.0",
+    "displayName": "Laraland",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-file": {}
+        }
+    },
+    "dependencies": {
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-compat": "^1.1.0",
+        "cordova-plugin-file": "^4.3.3",
+        "cordova-plugin-whitelist": "~1.3.2"
     }
-  },
-  "dependencies": {
-    "cordova-android": "^6.2.3",
-    "cordova-plugin-compat": "^1.1.0",
-    "cordova-plugin-file": "^4.3.3",
-    "cordova-plugin-whitelist": "~1.3.2"
-  }
 }
