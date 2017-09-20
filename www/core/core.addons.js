@@ -12,12 +12,8 @@ class Addon {
 		this.supportedCores = specification.SupportedCores;
 		this.addonType 		= specification.AddonType;
 		this.dependencies 	= specification.Dependencies;
-		this.widgetentry    = meta.fullPath + specification.MainClass;
-		this.mainview		= meta.fullPath + specification.MainView;
+		this.mainClass    	= specification.MainClass;
+		this.mainView		= specification.MainView;
 	}
-
-	start() {
-		$('body').append(mainview);
-	}
-
+	
 }
