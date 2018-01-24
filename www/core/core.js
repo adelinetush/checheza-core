@@ -2,6 +2,12 @@ var identifiedAddons = []
 var addons = []
 var activeWidget = null;
 
+function isPhone() {
+    return (window.cordova || window.PhoneGap || window.phonegap) 
+    && /^file:\/{3}[^\/]/i.test(window.location.href) 
+    && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
+}
+
 class Core {
 
 	constructor() {
@@ -9,12 +15,23 @@ class Core {
 	}
 
 	static addIdentifiedAddon(addon, file) {
-		if(addon.MainClassFile != undefined) {
-			addon.MainClassFile = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainClassFile;
-		} 
 
-		if(addon.MainView != undefined) {
-			addon.MainView = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainView;
+		if(isPhone()) {
+			if(addon.MainClassFile != undefined) {
+				addon.MainClassFile = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainClassFile;
+			} 
+
+			if(addon.MainView != undefined) {
+				addon.MainView = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainView;
+			}
+		}  else {
+			if(addon.MainClassFile != undefined) {
+				addon.MainClassFile = file.replace("http://localhost:8000/", "").replace("specification.json", "") + addon.MainClassFile;
+			} 
+
+			if(addon.MainView != undefined) {
+				addon.MainView = file.replace("http://localhost:8000/", "").replace("specification.json", "") + addon.MainView;
+			}
 		}
 		
 		identifiedAddons.push(addon);

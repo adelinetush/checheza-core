@@ -6,11 +6,26 @@ var _self = null;
 /**
  * Todo: add comments, add deeper verification, make sure the weird promise catches becomes real .then's instead of .catch.
  */
-
 class Bootloader {
 
     constructor() { 
-        window.resolveLocalFileSystemURL(cordova.file.applicationDirectory+"www/addons", Bootloader.initializeBoot, fail);
+        if (isPhone()) {
+            window.resolveLocalFileSystemURL(cordova.file.applicationDirectory+"www/addons", Bootloader.initializeBoot, fail);
+        } else {
+            $.ajax({
+                url: "http://localhost:8001/",
+                method: "get",
+                dataType: 'json'
+            }).done(function(specs){
+                for(let spec of specs) {
+                    Bootloader.loadAddonSpecification(spec);
+                }
+
+                if(Bootloader.isAllDependenciesMet()) {
+                    Core.loadAllAddons();
+                }
+            });
+        }
     }
 
     static initializeBoot(filesystem) {
@@ -63,27 +78,38 @@ class Bootloader {
     }
 
     static parseAddonSpecification(addonSpecification, file) {
-        var spec = JSON.parse(addonSpecification)
+        let spec = JSON.parse(addonSpecification)
         Core.addIdentifiedAddon(spec, file);                
         $('.status').append('<p class="animated fadeInUp">Identified: '+spec.AddonIdentifier+'</p>');
     }
 
     static loadAddonSpecification(addonSpecificationFile) {
-        return new Promise(function(resolve, reject) {
-            addonSpecificationFile = Promise.promisifyAll(addonSpecificationFile)
-            addonSpecificationFile.fileAsync()
-            .then(function(file){
-                
-            }).catch(function(file){ // again, what is going on here?                
-                
-                    var reader = new FileReader();
-                    reader.readAsText(file);
-                    reader.onloadend = function(){
-                        Bootloader.parseAddonSpecification(this.result, addonSpecificationFile);
-                        resolve("Success!");
-                    };
+        if(isPhone()){
+            return new Promise(function(resolve, reject) {
+                addonSpecificationFile = Promise.promisifyAll(addonSpecificationFile)
+                addonSpecificationFile.fileAsync()
+                .then(function(file){
+                    
+                }).catch(function(file){ // again, what is going on here?                
+                    
+                        var reader = new FileReader();
+                        reader.readAsText(file);
+                        reader.onloadend = function(){
+                            Bootloader.parseAddonSpecification(this.result, addonSpecificationFile);
+                            resolve("Success!");
+                        };
+                    });
                 });
-            });
+        } else {
+            var res = $.ajax({
+                url: "http://localhost:8000"+addonSpecificationFile.path+"/"+addonSpecificationFile.file,
+                method: "get",
+                dataType: 'json',
+                async: false
+            }).responseText;
+
+            Bootloader.parseAddonSpecification(res, "http://localhost:8000"+addonSpecificationFile.path+"/"+addonSpecificationFile.file);
+        }
     }
 
     static isAllDependenciesMet() {
