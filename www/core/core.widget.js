@@ -9,24 +9,26 @@ class Widget extends Addon {
 		 * we could even define our own kind of view format.*/
 
 		// get head from view and append to active head
-		$.ajax({
-			url: this.mainView,
-			aSync: false,
-			type: 'GET',
-			context: document.head,
-			success: function(viewHead) {
-				$('head').append(viewHead);
-			}
-		});
+		_self = this;
 
-		// get body and replace with current body
 		$.ajax({
 			url: this.mainView,
 			aSync: false,
 			type: 'GET',
-			context: document.body,
-			success: function(viewBody) {
-				$('body').html(viewBody);
+			dataType: "html",
+			success: function(view) {
+				var jqView = $(view);
+				
+				// make sure full paths for resources are added to head.
+				_.map(jqView.filter("link"), (link) => {					
+					var href = link.outerHTML.replace('href="', 'href="/addons/'+_self.identifier.toLowerCase()+'/');
+					$('head').append(href);
+				});
+
+				//append view body
+				$('body').html(view);
+
+				_self.initialize();
 			}
 		});
 	}

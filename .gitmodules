@@ -1,3 +1,3 @@
-[submodule "www/addons/treehouse-addon"]
-	path = www/addons/treehouse-addon
-	url = https://github.com/laralearning/treehouse-addon
+[submodule "www/addons/learnwithlara.main.treehouse"]
+	path = www/addons/learnwithlara.main.treehouse
+	url = git@github.com:laralearning/learnwithlara.main.treehouse.git
