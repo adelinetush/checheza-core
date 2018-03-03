@@ -1,3 +1,6 @@
 [submodule "www/addons/learnwithlara.main.treehouse"]
 	path = www/addons/learnwithlara.main.treehouse
 	url = git@github.com:laralearning/learnwithlara.main.treehouse.git
+[submodule "www/addons/learnwithlara.widget.bookshelf"]
+	path = www/addons/learnwithlara.widget.bookshelf
+	url = git@github.com:laralearning/learnwithlara.widget.bookshelf.git
