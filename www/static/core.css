@@ -2,9 +2,9 @@ body { margin: 0px; padding: 0px; background-color:#5A50DC; overflow:hidden;}
 
 img { outline: none; }
 .logo {
-  width: 80vw;
-  height: auto;
-  margin-left:10vw;
+  width: 20vw;
+  height: 20vh;
+  margin-left:40vw;
   margin-top:30vh;
 }
 .status{
@@ -16,6 +16,7 @@ img { outline: none; }
   font-family: FontAwesome;
   font-size:1.3vh;
 }
+
 .hidden {
   visibility:hidden;
 }
