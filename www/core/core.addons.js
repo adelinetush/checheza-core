@@ -14,6 +14,6 @@ class Addon {
 		this.dependencies 	= specification.Dependencies;
 		this.mainClass    	= specification.MainClass;
 		this.mainView		= specification.MainView;
+		this.views			= specification.Views;
 	}
-	
 }
