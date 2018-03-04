@@ -4,3 +4,6 @@
 [submodule "www/addons/learnwithlara.widget.bookshelf"]
 	path = www/addons/learnwithlara.widget.bookshelf
 	url = git@github.com:laralearning/learnwithlara.widget.bookshelf.git
+[submodule "www/addons/learnwithlara.widget.memory"]
+	path = www/addons/learnwithlara.widget.memory
+	url = git@github.com:laralearning/learnwithlara.widget.memory.git
