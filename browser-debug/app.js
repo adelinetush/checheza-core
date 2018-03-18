@@ -8,12 +8,17 @@ var specPaths = [];
 var bookPaths = []
 
 app.use(cors())
+app.use(express.json());      
+app.use(express.urlencoded());
 
-app.get('/', cors(), (req, res, next) => {
-	specPaths = [];
-	readDir("../www/addons");
-	res.json(specPaths);
+
+app.post('/readFolder', cors(), (req, res, next) => {
+	res.json(readFolder(req.body.readPath));
 });
+
+app.post('/readFile', cors(), (req, res, next) => {
+	res.json(readFile(req.body.filePath));
+})
 
 app.get('/bookshelf', cors(), (req, res, next) => {
 	res.json(getBooks()[0])
@@ -46,19 +51,16 @@ function getBooks() {
 	});
 }
 
-function readDir(path){
-	var files = fs.readdirSync(path);
+function readFolder(path){
+	return fs.readdirSync("../"+path);
+}
 
-	files.map((file) => {
-		var f = path+"/"+file;
-		if(isDir(f)) {
-			readDir(f);
-		} else if (isFile(f)) {
-			if (f.indexOf("specification.json") != -1) {
-				specPaths.push({ "path":path.replace('../www',''), "file":file });
-			}
-		} 
-	});
+function readFile(path) {
+	try {
+		return fs.readFileSync("../"+path, "utf8");
+	} catch(e) {
+		return fs.readFileSync(".."+path, "utf8");
+	}
 }
 
 function isDir(path) {
