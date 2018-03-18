@@ -1,55 +1,53 @@
-var identifiedAddons = []
-var addons = []
-var addonSpecs = [];
-
-var activeWidget = null;
-
-function isPhone() {
-    return (window.cordova || window.PhoneGap || window.phonegap) 
-    && /^file:\/{3}[^\/]/i.test(window.location.href) 
-    && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
-}
+var core;
 
 class Core {
 
-	constructor() {
+	constructor () {
+		this.identifiedAddons = [];
+		this.addons = [];
+		this.addonSpecs = [];
+		this.activeWidget = null;
 
+		console.log("Initializing core.utils");
+		this.utils = new CoreUtils();
+
+		console.log("Initializing core.filesystem");
+		this.filesystem = new CoreFilesystem();
 	}
 
-	static addIdentifiedAddon(addon, file) {
+	addIdentifiedAddon(specification, url) {
 
-		if(isPhone()) {
-			if(addon.MainClassFile != undefined) {
-				addon.MainClassFile = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainClassFile;
+		if(this.utils.isPhone()) {
+			if(specification.MainClassFile != undefined) {
+				specification.MainClassFile = url.fullPath.replace("/www/", "").replace("specification.json", "") + specification.MainClassFile;
 			} 
 
-			if(addon.MainView != undefined) {
-				addon.MainView = file.fullPath.replace("/www/", "").replace("specification.json", "") + addon.MainView;
+			if(specification.MainView != undefined) {
+				specification.MainView = url.fullPath.replace("/www/", "").replace("specification.json", "") + specification.MainView;
 			}
 
-			if(addon.Views != undefined) {
-				$.each(addon.Views, (i, view) => {
-					addon.Views[i] = file.replace("/www/", "").replace("specification.json", "") + addon.Views[i];
+			if(specification.Views != undefined) {
+				$.each(specification.Views, (i, view) => {
+					specification.Views[i] = url.replace("/www/", "").replace("specification.json", "") + specification.Views[i];
 				});
 			}
 		}  else {
-			if(addon.MainClassFile != undefined) {
-				addon.MainClassFile = file.replace("http://localhost:8000/", "").replace("specification.json", "") + addon.MainClassFile;
+			if(specification.MainClassFile != undefined) {
+				specification.MainClassFile = url.replace("http://localhost:8000/", "").replace("specification.json", "") + specification.MainClassFile;
 			} 
 
-			if(addon.MainView != undefined) {
-				addon.MainView = file.replace("http://localhost:8000/", "").replace("specification.json", "") + addon.MainView;
+			if(specification.MainView != undefined) {
+				specification.MainView = url.replace("http://localhost:8000/", "").replace("specification.json", "") + specification.MainView;
 			}
 
-			if(addon.Views != undefined) {
-				$.each(addon.Views, (i, view) => {
-					addon.Views[i].file = file.replace("http://localhost:8000/", "").replace("specification.json", "") + addon.Views[i].file;
-					console.log(view);
+			if(specification.Views != undefined) {
+				$.each(specification.Views, (i, view) => {
+					specification.Views[i].file = url.replace("http://localhost:8000/", "").replace("specification.json", "") + specification.Views[i].file;
 				});
 			}
 		}
 		
-		identifiedAddons.push(addon);
+		this.identifiedAddons.push(specification);
 	}
 
 
@@ -57,35 +55,44 @@ class Core {
 	 * This method loads all the addons that are identified at the application boot.
 	 * Identified addons should be considered to be addons that have been verified by the boot code.
 	 */
-	static loadAllAddons() {
-		for(let addon of Core.getIdentifiedAddons()) {
+	loadAllAddons() {
+		for(let addon of core.getIdentifiedAddons()) {
 			if(addon.AddonType) {
+
 				$('head').append('<script type=text/javascript" src="'+addon.MainClassFile+'"></script>');
-				addons[addon.AddonIdentifier] = Function("param", "return new "+addon.MainClass+"(param)");
-				addonSpecs[addon.AddonIdentifier] = addon;
+				this.addons[addon.AddonIdentifier] = Function("param", "return new "+addon.MainClass+"(param)");
+				this.addonSpecs[addon.AddonIdentifier] = addon;
+
 
 				if(addon.AddonType == "Skin" || addon.AddonType == "Sounds") {
 					// Here we should add the resources to a list
 				}
 
-				if(addon.AddonType == "Main" && activeWidget == null) {
-
+				if(addon.AddonType == "Main" && this.activeWidget == null) {
 					// Instantiate addon class //
-					activeWidget = new addons[addon.AddonIdentifier](addon);
+					let mainAddon = new this.addons[addon.AddonIdentifier](addon);
 
 					// Start main addon //
-					activeWidget.start();
+					mainAddon.start();
 				}
 			}			
 		}
 	}
 
-	static getIdentifiedAddons() {
-		return identifiedAddons;
+	getIdentifiedAddons() {
+		return this.identifiedAddons;
 	}
 
-	static getActiveWidget() {
-		return activeWidget;
+	getActiveWidget() {
+		return this.activeWidget;
 	}
 
+	setActiveWidget(widgetObject) {
+		this.activeWidget = widgetObject;
+	}
+
+	startWidget(identifier) {
+		let widget = new this.addons[identifier](this.addonSpecs[identifier]);
+		widget.start();
+	}
 }

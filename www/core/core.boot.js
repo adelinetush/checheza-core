@@ -1,116 +1,80 @@
-var directoryReader = null;
-var dir = null;
-var _fs = null;
-var _self = null;
-
 /**
- * Todo: add comments, add deeper verification, make sure the weird promise catches becomes real .then's instead of .catch.
+ * Todo: add deeper verification
  */
 class Bootloader {
 
-    constructor() { 
-        if (isPhone()) {
-            window.resolveLocalFileSystemURL(cordova.file.applicationDirectory+"www/addons", Bootloader.initializeBoot, fail);
-        } else {
-            $.ajax({
-                url: "http://localhost:8001/",
-                method: "get",
-                dataType: 'json'
-            }).done(function(specs){
-                for(let spec of specs) {
-                    Bootloader.loadAddonSpecification(spec);
-                }
+    static init() {
 
-                if(Bootloader.isAllDependenciesMet()) {
-                    Core.loadAllAddons();
-                }
-            });
-        }
-    }
+        // Instantiate core
+        core = new Core();
 
-    static initializeBoot(filesystem) {
-        if(filesystem == undefined) {
-            $('.status').append('<p class="animated fadeInUp">FileSystem not initialized...</p>');
-        } else {
-            Bootloader.checkForSpecifications(filesystem)
-            .then(function(){
-                if(Bootloader.isAllDependenciesMet()) {
-                    $('.status').append('<p class="animated fadeInUp">All dependencies are met!</p>');                    
-                    Core.loadAllAddons();
-                } else {
-                    $('.status').append('<p class="animated fadeInUp">Not all dependencies are met. Cannot start.</p>');                                        
-                }
-            })
-        }
-    }
+        // Initialize filesystem
+        core.filesystem.initialize();
 
-    static checkForSpecifications(entry) {
-        return new Promise(function(resolve, reject) {            
-            if(entry.isDirectory) {
-                var directoryReader = entry.createReader();
-                directoryReader = Promise.promisifyAll(directoryReader);
-                
-                directoryReader.readEntriesAsync()
-                .then(function(entries) {
-                    console.log(entries);
-                }).catch(function(entries) { // what is going on here?      
-                    for(let _entry of entries) {
-                        Bootloader.checkForSpecifications(_entry)
-                        .then(function(){
-                            resolve("Success");
-                        }).catch(function(){
-
-                        });
-                    }    
-                });
+        core.filesystem.readFolder("www/addons") // Locate addonfolders
+        .then(addonFolders => {
+            return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
+        }).then(specificationUrls => {
+            return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
+        }).then(specifications => {
+            if(Bootloader.isAllDependenciesMet()) {
+                core.loadAllAddons();
             }
-            else if(entry.isFile){
-                if(entry.name == "specification.json") {
-                    Bootloader.loadAddonSpecification(entry)
-                    .then(function(){
-                        resolve("Success");                        
-                    });
-                } else {
-                    reject("Not the correct file, but continue");
-                }
-            }
+        }).catch((error) => {
+            throw("Could not read addonfolders properly! "+error)
         });
     }
 
-    static parseAddonSpecification(addonSpecification, file) {
-        let spec = JSON.parse(addonSpecification)
-        Core.addIdentifiedAddon(spec, file);                
-        $('.status').append('<p class="animated fadeInUp">Identified: '+spec.AddonIdentifier+'</p>');
-    }
+    static getSpecificationFrom(addonFolders) {
+        
+        var specs = [];
 
-    static loadAddonSpecification(addonSpecificationFile) {
-        if(isPhone()){
-            return new Promise(function(resolve, reject) {
-                addonSpecificationFile = Promise.promisifyAll(addonSpecificationFile)
-                addonSpecificationFile.fileAsync()
-                .then(function(file){
-                    
-                }).catch(function(file){ // again, what is going on here?                
-                    
-                        var reader = new FileReader();
-                        reader.readAsText(file);
-                        reader.onloadend = function(){
-                            Bootloader.parseAddonSpecification(this.result, addonSpecificationFile);
-                            resolve("Success!");
-                        };
-                    });
+        for(let addonFolder of addonFolders) {
+            specs.push(new Promise((resolve, reject) => {
+                core.filesystem.readFolder("www/addons/"+addonFolder)
+                .then((addonFiles) => {
+                    for(let addonFile of addonFiles) {
+                        if(addonFile === "specification.json") {
+                            resolve("www/addons/"+addonFolder+"/"+addonFile);
+                        }
+                    }
+                }).catch((error) => {
+                    reject("Could not read addonfolders properly, check your "+addonFolder+"folder for anomalies!");
                 });
-        } else {
-            var res = $.ajax({
-                url: "http://localhost:8000"+addonSpecificationFile.path+"/"+addonSpecificationFile.file,
-                method: "get",
-                dataType: 'json',
-                async: false
-            }).responseText;
-
-            Bootloader.parseAddonSpecification(res, "http://localhost:8000"+addonSpecificationFile.path+"/"+addonSpecificationFile.file);
+            }));
         }
+
+        return Promise.all(specs)
+        .then(specifications => {
+            return specifications;
+        });
+
     }
+
+
+    static parseSpecifications(specificationUrls) {
+        var added = []
+
+        for(let specificationUrl of specificationUrls) {
+            added.push(new Promise((resolve, reject) => {
+                core.filesystem.readFile(specificationUrl)
+                .then(data => {
+                    let spec = JSON.parse(data);
+                    core.addIdentifiedAddon(spec, specificationUrl);                
+                    $('.status').append('<p class="animated fadeInUp">Identified: '+spec.AddonIdentifier+'</p>');
+                    resolve(spec);
+                }).catch((err) => {
+                    reject(err)
+                });
+            }));
+        }
+
+        return Promise.all(added)
+        .then(specifications => {
+            return specifications;
+        });
+    }
+
 
     static isAllDependenciesMet() {
         var dependencyList = [];
@@ -121,7 +85,7 @@ class Bootloader {
         /**
          * First, collect all the addons dependencies.
          */
-        for (let addon of Core.getIdentifiedAddons()) {
+        for (let addon of core.getIdentifiedAddons()) {
             // Make sure that the addon has dependencies.
             if (addon.Dependencies.length > 0) {
                 
@@ -141,7 +105,7 @@ class Bootloader {
 
             // Run through the identified addons and compare their unique identifier
             // to the dependency identifier.
-            for (let addon of Core.getIdentifiedAddons()) {
+            for (let addon of core.getIdentifiedAddons()) {
 
                 // If it matches, a dependency was met. Increment numDependencies by 1.
                 if (dependency == addon.AddonIdentifier) {
@@ -163,26 +127,31 @@ class Bootloader {
             return true;
         }
     }
-}
 
-function fail(e) {
-    console.log("FileSystem Error");
-    $("body").append(e)
-}
-
-function tryInit() {
-    try {
-        new Bootloader();
-    } catch (err) {
-        tryInit();
+    static tryInit(i) {
+        if(i < 3) {
+            try {
+                Bootloader.init();
+                return true;
+            } catch (err) {
+                console.log(err);
+                setTimeout(() => {
+                    Bootloader.tryInit(i+1);
+                }, 1000);
+            }
+        } else {
+            return false;
+        }
     }
 }
 
-document.addEventListener("deviceready", function (){         
-    $('.logo').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', 
-    function(){
-        $('.logo').removeClass('animated zoomInDown');
-        $('.logo').addClass('infinite pulse animated');
-        tryInit();
-    }); 
-}, false);
+$(document).ready(() => {
+    document.addEventListener("deviceready", () => {
+        $('.logo').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
+            $('.logo').removeClass('animated zoomInDown');
+            $('.logo').addClass('infinite pulse animated');
+            Bootloader.tryInit(0);
+        });
+    });
+});
+
