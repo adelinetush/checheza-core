@@ -15,5 +15,7 @@ class Addon {
 		this.mainClass    	= specification.MainClass;
 		this.mainView		= specification.MainView;
 		this.views			= specification.Views;
+		this.path 			= "addons/" + specification.AddonIdentifier;
+		this.fullPath = "/www/addons/" + specification.AddonIdentifier;
 	}
 }

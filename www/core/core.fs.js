@@ -13,38 +13,30 @@ class CoreFilesystem {
 
     constructor() {
 
-        this.fs = null;
-        this.browser = null;
-
     }
 
     initialize() {
-        if (core.utils.isPhone()) {
+        return new Promise((resolve, reject) => {
+            if (core.utils.isPhone()) {
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory, (fs) => {
+                    resolve("success");
+                }, (err) => { reject(err) });
+            } else {
 
-            /** Resolve a filesystem object */
-            this.fs = window.resolveLocalFileSystemURL(cordova.file.applicationDirectory, (fs) => { return fs }, fail);
-            
-
-
-        } else {
-            
-            // Cordova in browser-mode does not support proper filesystem access. 
-            // This means that we will use the browser-debug node module instead.
-            this.browser = true;
-
-        }
-
-        console.log("Filesystem got properly initialized. Cheers!");
-        
+                // Cordova in browser-mode does not support proper filesystem access. 
+                // This means that we will use the browser-debug node module instead.
+                this.browser = true;
+                resolve(this.browser);
+            }
+        });
     }
 
     readFolder(folderUrl) {
-        
+
         if (this.browser) {
             /**
             * Ask browser-debug for folder contents.
             */
-
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: "http://localhost:27000/readFolder",
@@ -56,35 +48,38 @@ class CoreFilesystem {
                     reject(err);
                 })
             });
-            
+
         } else {
             /**
              * Read directory and return entries
              */
-            return new Promise((resolve, reject) => {     
+            var directoryEntries;
+            let paths = [];
 
-                if(entry.isDirectory) {
+            return new Promise((resolve, reject) => {
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + folderUrl, (entry) => {
+                    if (entry.isDirectory) {
+                       var directoryReader = entry.createReader();
 
-                    var directoryReader = entry.createReader();
-                    directoryReader = Promise.promisifyAll(directoryReader);
-                    
-                    directoryReader.readEntriesAsync()
-                    .then((entries) => {
-                        resolve(entries);
-                    }).catch((err) => {
-                        reject(err);
-                    });;
-
-                }
-
+                        directoryReader.readEntries((entries) => {
+                            resolve(_.map(entries, entry => { 
+                                return entry.fullPath;
+                            }));
+                        }, (error) => {
+                            reject(error)
+                        });
+                    }
+                }, (err) => {
+                    throw err;
+                });
             });
-
         }
     }
 
     readFile(fileUrl) {
         if (this.browser) {
 
+            
             /**
             * Ask browser-debug for file contents.
             */
@@ -100,22 +95,24 @@ class CoreFilesystem {
                     reject(err);
                 })
             });
-            
-        } else {
-            return new Promise((resolve, reject) => {
-                window.resolveLocalFileSystemURL(fileUrl, (fileEntry) => {
-                    var reader = new FileReader();
-                    reader.readAsText(fileEntry);
-                    
-                    reader.onloadend = (file) => {
-                        resolve(file)
-                    }
 
-                    reader.onerror = (err) => {
-                        reject(err)
+        } else {
+            return new Promise(resolve => {
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + fileUrl, (file) => {
+                    if (file.isFile) {
+                        console.log(file);
+                        file.file((f) => {
+                            var reader = new FileReader();
+
+                            reader.onloadend = function(data) {
+                                resolve(data.target.result);
+                            }   
+    
+                            reader.readAsText(f);
+                        })
                     }
                 });
-            });
+            })
         }
     }
 }
