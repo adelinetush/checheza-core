@@ -24,42 +24,29 @@ app.get('/bookshelf', cors(), (req, res, next) => {
 	res.json(getBooks()[0])
 });
 
-function getBooks() {
-	var files = fs.readdirSync("../www/addons/learnwithlara.widget.bookshelf/books/");
-
-	return files.map((lang) => {
-		return books = fs.readdirSync("../www/addons/learnwithlara.widget.bookshelf/books/"+lang)
-		.map((book) => { 
-			var num_pages = 0;
-
-			book_data = fs.readdirSync("../www/addons/learnwithlara.widget.bookshelf/books/"+lang+"/"+book)
-			.map((bdata) => {
-				if(bdata.indexOf(".png") != -1) {
-					num_pages++;
-				}
-				return bdata;
-			});
-
-			return {
-				id: book,
-				pages: num_pages,
-				cover_picture: 'front.png',
-				path: 'addons/learnwithlara.widget.bookshelf/books/'+lang+'/'+book,
-				language: lang
-			};
-		});
-	});
-}
-
 function readFolder(path){
-	return fs.readdirSync("../"+path);
+	if(path.includes("www/addons")) {
+		return fs.readdirSync("../"+path).map(entry => {
+			return path + "/" + entry;
+		})
+	} else if (path.includes("addons/")) {
+		var path = path.replace("addons/", "../www/addons/");
+		return fs.readdirSync(path).map(entry => {
+			return entry;
+		})
+	} else { 
+		return fs.readdirSync("../www/addons/"+path);
+	}
 }
 
 function readFile(path) {
 	try {
-		return fs.readFileSync("../"+path, "utf8");
+		if(path.includes("www/addons"))
+			return fs.readFileSync("../www/addons/"+path, "utf8");
+		else
+			return fs.readFileSync("../"+path, "utf8");
 	} catch(e) {
-		return fs.readFileSync(".."+path, "utf8");
+		return fs.readFileSync("../"+path, "utf8");
 	}
 }
 
