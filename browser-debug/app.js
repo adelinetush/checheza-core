@@ -20,10 +20,6 @@ app.post('/readFile', cors(), (req, res, next) => {
 	res.json(readFile(req.body.filePath));
 })
 
-app.get('/bookshelf', cors(), (req, res, next) => {
-	res.json(getBooks()[0])
-});
-
 function readFolder(path){
 	if(path.includes("www/addons")) {
 		return fs.readdirSync("../"+path).map(entry => {
@@ -41,11 +37,13 @@ function readFolder(path){
 
 function readFile(path) {
 	try {
-		if(path.includes("www/addons"))
-			return fs.readFileSync("../www/addons/"+path, "utf8");
-		else
+		if(path.includes("www/addons")) {
 			return fs.readFileSync("../"+path, "utf8");
+		} else if (path.includes("addons/")) {
+			return fs.readFileSync("../www/"+path, "utf8");
+		}
 	} catch(e) {
+		console.log(e);
 		return fs.readFileSync("../"+path, "utf8");
 	}
 }
