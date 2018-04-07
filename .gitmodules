@@ -7,3 +7,6 @@
 [submodule "www/addons/learnwithlara.widget.memory"]
 	path = www/addons/learnwithlara.widget.memory
 	url = git@github.com:laralearning/learnwithlara.widget.memory.git
+[submodule "www/addons/learnwithlara.widget.numberline"]
+	path = www/addons/learnwithlara.widget.numberline
+	url = git@github.com:laralearning/learnwithlara.widget.numberline.git
