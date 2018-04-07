@@ -4,8 +4,8 @@
   "displayName": "Laraland",
   "cordova": {
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
