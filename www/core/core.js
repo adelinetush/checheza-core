@@ -81,6 +81,9 @@ class Core {
 	}
 
 	startWidget(identifier) {
+		// Delete any previous resources
+		$("head").find('.resource').remove();
+
 		let widget = new this.addons[identifier](this.addonSpecs[identifier]);
 		widget.start();
 	}
