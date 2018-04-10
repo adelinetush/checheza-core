@@ -24,14 +24,17 @@ class Widget extends Addon {
 				.then(view => {
 					var jqView = $(view);
 
+					// Delete any previous resources
+					$("head").find('.resource').remove();
+					
 					// make sure full paths for resources are added to head.
 					_.map(jqView.filter("link"), (link) => {
-						var href = link.outerHTML.replace('href="', 'href="addons/' + identifier.toLowerCase() + '/');
+						var href = link.outerHTML.replace('href="', 'class="'+identifier.toLowerCase()+' resource" href="addons/' + identifier.toLowerCase() + '/');
 						$('head').append(href);
 					});
 
 					_.map(jqView.filter("script"), (script) => {
-						var src = script.outerHTML.replace('src="', 'src="addons/' + identifier.toLowerCase() + '/');
+						var src = script.outerHTML.replace('src="', 'class="'+identifier.toLowerCase()+' resource" src="addons/' + identifier.toLowerCase() + '/');
 						$('head').append(src);
 					});
 
