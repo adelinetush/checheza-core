@@ -8,8 +8,12 @@ class Bootloader {
         // Instantiate core
         core = new Core();
 
+        
+        $('<script src="static/browserDbgAddr.js"></' + 'script>').appendTo(document.body);
+
         // Initialize filesystem
         core.filesystem.initialize();
+
 
         core.filesystem.readFolder("www/addons") // Locate addonfolders
             .then(addonFolders => {

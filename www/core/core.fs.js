@@ -22,7 +22,7 @@ class CoreFilesystem {
                     resolve("success");
                 }, (err) => { reject(err) });
             } else {
-
+                
                 // Cordova in browser-mode does not support proper filesystem access. 
                 // This means that we will use the browser-debug node module instead.
                 this.browser = true;
@@ -39,7 +39,7 @@ class CoreFilesystem {
             */
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: "http://localhost:27000/readFolder",
+                    url: browserdebug + "/readFolder",
                     method: "POST",
                     data: { readPath: folderUrl }
                 }).done((data) => {
@@ -86,7 +86,7 @@ class CoreFilesystem {
 
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: "http://localhost:27000/readFile",
+                    url: browserdebug + "/readFile",
                     method: "POST",
                     data: { filePath: fileUrl }
                 }).done((data) => {
