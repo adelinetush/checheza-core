@@ -16,11 +16,15 @@
         "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
         "XWALK_MODE": "embedded",
         "XWALK_MULTIPLEAPK": "true"
+      },
+      "cordova-android-support-gradle-release": {
+        "ANDROID_SUPPORT_VERSION": "26.+"
       }
     }
   },
   "dependencies": {
     "cordova-android": "^6.2.3",
+    "cordova-android-support-gradle-release": "^1.4.4",
     "cordova-browser": "^5.0.3",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-crosswalk-webview": "^2.4.0",
