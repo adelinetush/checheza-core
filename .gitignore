@@ -5,3 +5,4 @@ plugins/
 node_modules/
 npm-debug.log
 */.*O
+www/static/browserDbgAddr.js
