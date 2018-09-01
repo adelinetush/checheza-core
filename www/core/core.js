@@ -59,7 +59,6 @@ class Core {
 						// Instantiate addon class //
 						let mainAddon = new this.addons[addon.AddonIdentifier](addon);
 
-						console.log("Hmm!");
 						// Start main addon //
 						mainAddon.start();
 					}
