@@ -1,5 +1,8 @@
 language: android
 
+git:
+        submodules: false
+
 node_js:
   - 5.5
 
@@ -11,6 +14,10 @@ sudo: false
 branches:
   only:
   - master
+
+before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
 
 install:
   - npm cache clean
