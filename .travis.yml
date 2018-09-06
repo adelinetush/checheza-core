@@ -9,20 +9,26 @@ node_js:
 notifications:
   email: false
 
-sudo: false
+sudo: true
 
 branches:
   only:
   - master
+
+android:
+        components:
+
 
 before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
 
 install:
-  - npm cache clean
-  - npm install
-  - npm install -g cordova
+  - sudo apt-get install npm
+  - sudo npm install
+  - sudo npm cache clean
+  - sudo npm install -g cordova
+  - sudo npm install -g cordova
   - echo y | android update sdk -u --filter android-22,android-2
 
 before_script:
