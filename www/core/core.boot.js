@@ -1,5 +1,6 @@
 /**
- * Todo: add deeper verification
+ * @class
+ * @ignore
  */
 class Bootloader {
 
@@ -8,21 +9,24 @@ class Bootloader {
         // Instantiate core
         core = new Core();
 
-        // Initialize filesystem
-        core.filesystem.initialize();
+        
+        $('<script src="static/browserDbgAddr.js"></' + 'script>').appendTo(document.body);
 
-        core.filesystem.readFolder("www/addons") // Locate addonfolders
-            .then(addonFolders => {
-                return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
-            }).then(specificationUrls => {
-                return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
-            }).then(specifications => {
-                if (Bootloader.isAllDependenciesMet()) {
-                    core.loadAllAddons();
-                }
-            }).catch((error) => {
-                throw ("Could not read addonfolders properly! " + error)
-            });
+        core.filesystem.initialize() // initialize filesystem
+        .then( () => { 
+            core.filesystem.readFolder("www/addons") // Locate addonfolders
+                .then(addonFolders => {
+                    return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
+                }).then(specificationUrls => {
+                    return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
+                }).then(specifications => {
+                    if (Bootloader.isAllDependenciesMet()) {
+                        core.loadAllAddons();
+                    }
+                }).catch((error) => {
+                    throw ("Could not read addonfolders properly! " + error)
+                });
+        })
     }
 
     static getSpecificationFrom(addonFolders) {

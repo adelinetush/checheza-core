@@ -1,10 +1,13 @@
 /**
  * Addon Class
- * 
+ * @example
+ * let myClass = new MyClass();
  */
-
 class Addon {
-
+	/**
+	 * @param {*} specification 
+	 * @param {*} meta 
+	 */
 	constructor (specification, meta) {
 		this.name 			= specification.Name;
 		this.identifier 	= specification.AddonIdentifier;
