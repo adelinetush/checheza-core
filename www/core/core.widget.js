@@ -10,6 +10,16 @@ class Widget extends Addon {
 		// get head from view and append to active head
 		Widget.changeView(this.identifier, this.mainView)
 			.then(() => {
+				$('body').removeAttr("style");
+				var scale = 'scale(1)';
+				document.body.style.webkitTransform = scale;     // Chrome, Opera, Safari
+				document.body.style.msTransform = scale;       // IE 9
+				document.body.style.transform = scale; 
+				document.body.style.zoom = 1.0;
+			
+				$('meta[name=viewport]').remove();
+				$('head').append('<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">' );
+
 				this.initialize();
 			});
 	}

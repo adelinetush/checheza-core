@@ -1,0 +1,41 @@
+language: android
+
+git:
+        submodules: false
+
+node_js:
+  - 5.5
+
+notifications:
+  email: false
+
+sudo: true
+
+branches:
+  only:
+  - master
+
+android:
+        components:
+
+
+before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+
+install:
+  - sudo apt-get install npm
+  - sudo npm cache clean
+  - sudo npm install -g cordova
+  - echo y | android update sdk -u --filter android-26
+
+before_script:
+  - cordova platform rm android
+  - cordova platform add android
+
+script:
+  - cordova prepare
+  - cordova build android
+  
+release:
+  - exit 0  

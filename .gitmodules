@@ -10,3 +10,6 @@
 [submodule "www/addons/learnwithlara.widget.numberline"]
 	path = www/addons/learnwithlara.widget.numberline
 	url = git@github.com:laralearning/learnwithlara.widget.numberline.git
+[submodule "www/addons/learnwithlara.widget.lettertracing"]
+	path = www/addons/learnwithlara.widget.lettertracing
+	url = https://github.com/laralearning/learnwithlara.widget.lettertracing

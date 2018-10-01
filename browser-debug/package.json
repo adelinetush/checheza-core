@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node browser-debug.js",
+    "start": "PORT=27000 node browser-debug.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andréas Forsbom",

@@ -32,7 +32,7 @@ class CoreFilesystem {
                 );
 
             } else {
-
+                
                 // Cordova in browser-mode does not support proper filesystem access. 
                 // This means that we will use an external node module for reading and writing to the filesystem.
                 this.browser = true;
@@ -61,7 +61,7 @@ class CoreFilesystem {
 
                 // AJAX request to the external node module that gives file access.
                 $.ajax({
-                    url: "http://localhost:27000/readFolder",
+                    url: browserdebug + "/readFolder",
                     method: "POST",
                     data: { readPath: folder }
                 }).done((data) => {
@@ -123,7 +123,7 @@ class CoreFilesystem {
 
                 // AJAX request to the external node module that gives file access.
                 $.ajax({
-                    url: "http://localhost:27000/readFile",
+                    url: browserdebug + "/readFile",
                     method: "POST",
                     data: { filePath: file }
                 }).done((data) => {

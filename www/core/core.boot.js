@@ -37,10 +37,23 @@ class Bootloader {
             specs.push(new Promise((resolve, reject) => {
                 core.filesystem.readFolder(addonFolder)
                     .then((addonFiles) => {
-                        for (let addonFile of addonFiles) {
-                            if (addonFile.includes("specification.json")) {
-                                resolve(addonFile);
+                        if(addonFiles.length > 0) {
+                            let count = 0;
+                            let found = false;
+                            for (let addonFile of addonFiles) {
+                                if (addonFile.includes("specification.json")) {
+                                    found = true;
+                                    resolve(addonFile);
+                                }
+                                count++;
                             }
+                            if (count == addonFiles.length && found == false){
+                                $('.status').append('<p class="animated fadeInUp">Could not find specification in '+addonFolder+'</p>');
+                                reject(addonFolder+"is missing a specification");
+                            }
+                        } else {
+                            $('.status').append('<p class="animated fadeInUp">'+addonFolder+' is empty. Stopping</p>');
+                            reject(addonFolder+" is empty. Stopping");
                         }
                     }).catch((error) => {
                         reject("Could not read addonfolders properly, check your " + addonFolder + "folder for anomalies!");
@@ -147,6 +160,7 @@ class Bootloader {
                 }, 5000);
             }
         } else {
+            $('.status').append('<p class="animated fadeInUp">Bootloader could not initialize</p>');
             return false;
         }
     }
