@@ -1,15 +1,15 @@
-[submodule "www/addons/learnwithlara.main.treehouse"]
-	path = www/addons/learnwithlara.main.treehouse
-	url = git@github.com:laralearning/learnwithlara.main.treehouse.git
-[submodule "www/addons/learnwithlara.widget.bookshelf"]
-	path = www/addons/learnwithlara.widget.bookshelf
-	url = git@github.com:laralearning/learnwithlara.widget.bookshelf.git
-[submodule "www/addons/learnwithlara.widget.memory"]
-	path = www/addons/learnwithlara.widget.memory
-	url = git@github.com:laralearning/learnwithlara.widget.memory.git
-[submodule "www/addons/learnwithlara.widget.numberline"]
-	path = www/addons/learnwithlara.widget.numberline
-	url = git@github.com:laralearning/learnwithlara.widget.numberline.git
-[submodule "www/addons/learnwithlara.widget.lettertracing"]
-	path = www/addons/learnwithlara.widget.lettertracing
-	url = https://github.com/laralearning/learnwithlara.widget.lettertracing
+[submodule "www/addons/checheza.main.treehouse"]
+	path = www/addons/checheza.main.treehouse
+	url = https://github.com/checheza/checheza.main.treehouse
+[submodule "www/addons/checheza.widget.lettertracing"]
+	path = www/addons/checheza.widget.lettertracing
+	url = https://github.com/checheza/checheza.widget.lettertracing
+[submodule "www/addons/checheza.widget.numberline"]
+	path = www/addons/checheza.widget.numberline
+	url = https://github.com/checheza/checheza.widget.numberline
+[submodule "www/addons/checheza.widget.bookshelf"]
+	path = www/addons/checheza.widget.bookshelf
+	url = https://github.com/checheza/checheza.widget.bookshelf
+[submodule "www/addons/checheza.widget.memory"]
+	path = www/addons/checheza.widget.memory
+	url = https://github.com/checheza/checheza.widget.memory
