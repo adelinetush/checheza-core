@@ -1,5 +1,5 @@
-# Laraland: Core
-Laraland's core is responsible for locating and loading different addons and their dependencies as well as providing an easy way to access resources throughout the system.
+# Checheza: Core
+The core is responsible for locating and loading different addons and their dependencies as well as providing an easy way to access resources throughout the system.
 
 | Type | Build status |
 |------|:------------:|
