@@ -77,7 +77,7 @@ class CoreFilesystem {
 
             } else { // If running app in phone mode 
 
-                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + folderUrl, (entry) => {
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + folder, (entry) => {
 
                     // If returned entry is a directory
                     if (entry.isDirectory) {
