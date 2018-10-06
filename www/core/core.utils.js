@@ -1,7 +1,7 @@
 class CoreUtils {
 
     constructor() {
-
+		console.info("CORE: Instantiated core.utils");
     }
 
     /**
@@ -20,5 +20,12 @@ class CoreUtils {
     makeZoomable() {
         $('meta[name=viewport]').remove();
 		$('head').append('<meta name="viewport" content="width=device-width, initial-scale=yes">' );
+    }
+
+    addExitButton (identifier) {
+        if(identifier === undefined)
+            identifier = "checheza.main.treehouse";
+
+        $('body').append('<a class="core-exit-button" onclick="core.startWidget(\''+identifier+'\');"></a>')
     }
 }

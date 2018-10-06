@@ -10,23 +10,26 @@ class Bootloader {
         core = new Core();
 
         
-        $('<script src="static/browserDbgAddr.js"></' + 'script>').appendTo(document.body);
-
-        core.filesystem.initialize() // initialize filesystem
-        .then( () => { 
-            core.filesystem.readFolder("www/addons") // Locate addonfolders
-                .then(addonFolders => {
-                    return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
-                }).then(specificationUrls => {
-                    return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
-                }).then(specifications => {
-                    if (Bootloader.isAllDependenciesMet()) {
-                        core.loadAllAddons();
-                    }
-                }).catch((error) => {
-                    throw ("Could not read addonfolders properly! " + error)
-                });
-        })
+        $.getScript("static/browserDbgAddr.js")
+        .done( () => { 
+            core.filesystem.initialize() // initialize filesystem
+            .then( () => { 
+                core.filesystem.readFolder("www/addons") // Locate addonfolders
+                    .then(addonFolders => {
+                        return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
+                    }).then(specificationUrls => {
+                        return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
+                    }).then(specifications => {
+                        if (Bootloader.isAllDependenciesMet()) {
+                            core.loadAllAddons();
+                        }
+                    }).catch((error) => {
+                        throw ("Could not read addonfolders properly! " + error)
+                    });
+            }).catch(error => {
+                throw("Could not initialize filesystem. " + error);
+            })
+        });
     }
 
     static getSpecificationFrom(addonFolders) {
@@ -47,7 +50,7 @@ class Bootloader {
                                 }
                                 count++;
                             }
-                            if (count == addonFiles.length && found == false){
+                            if (count === addonFiles.length && found === false){
                                 $('.status').append('<p class="animated fadeInUp">Could not find specification in '+addonFolder+'</p>');
                                 reject(addonFolder+"is missing a specification");
                             }
@@ -79,9 +82,12 @@ class Bootloader {
                         core.filesystem.readFile(specificationUrl)
                             .then(data => {
                                 let spec = JSON.parse(data);
-                                core.addIdentifiedAddon(spec, specificationUrl.replace("specification.json", ""));
+                                core.addIdentifiedAddonSpecification(spec, specificationUrl.replace("specification.json", ""));
+                                
+                                // Add message to bootscreen
                                 $('.status').append('<p class="animated fadeInUp">Identified: ' + spec.AddonIdentifier + '</p>');
                                 resolve(spec);
+                                
                             }).catch((err) => {
                                 reject(err)
                             });
@@ -106,7 +112,7 @@ class Bootloader {
         /**
          * First, collect all the addons dependencies.
          */
-        for (let addon of core.getIdentifiedAddons()) {
+        for ( let addon of core.getIdentifiedAddonSpecifications() ) {
             // Make sure that the addon has dependencies.
             if (addon.Dependencies.length > 0) {
 
@@ -168,10 +174,6 @@ class Bootloader {
 
 
 document.addEventListener("deviceready", () => {
-    $('.logo').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
-        $('.logo').removeClass('animated zoomInDown');
-        $('.logo').addClass('infinite pulse animated');
-        Bootloader.tryInit(0);
-    });
+    Bootloader.tryInit(0);  
 });
 

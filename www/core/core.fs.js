@@ -24,18 +24,21 @@ class CoreFilesystem {
                 window.resolveLocalFileSystemURL(
                     cordova.file.applicationDirectory, (fs) => {
                         // Return success message
+                        console.info("Initializing core.filesystem");
                         resolve("Filesystem resolved");
+                        
                     }, (err) => {
+                        console.err(err);
                         // Return error message
                         reject(err)
                     }
                 );
 
             } else {
-                
                 // Cordova in browser-mode does not support proper filesystem access. 
                 // This means that we will use an external node module for reading and writing to the filesystem.
                 this.browser = true;
+                console.info("CORE: Instantiated core.filesystem");
                 resolve("Filesystem resolved");
 
             }

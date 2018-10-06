@@ -6,9 +6,8 @@
 class Addon {
 	/**
 	 * @param {*} specification 
-	 * @param {*} meta 
 	 */
-	constructor (specification, meta) {
+	constructor (specification) {
 		this.name 			= specification.Name;
 		this.identifier 	= specification.AddonIdentifier;
 		this.version 		= specification.Version;
@@ -19,6 +18,6 @@ class Addon {
 		this.mainView		= specification.MainView;
 		this.views			= specification.Views;
 		this.path 			= "addons/" + specification.AddonIdentifier;
-		this.fullPath = "/www/addons/" + specification.AddonIdentifier;
+		this.fullPath 		= "/www/addons/" + specification.AddonIdentifier;
 	}
 }

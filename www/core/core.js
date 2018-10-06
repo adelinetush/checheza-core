@@ -3,19 +3,21 @@ var core;
 class Core {
 
 	constructor() {
-		this.identifiedAddons = [];
+
+		// This is where the addon specifications are stored
+		this.identifiedAddonSpecifications = [];
+
+
 		this.addons = [];
 		this.addonSpecs = [];
 		this.activeWidget = null;
 
-		console.log("Initializing core.utils");
 		this.utils = new CoreUtils();
 
-		console.log("Initializing core.filesystem");
 		this.filesystem = new CoreFilesystem();
 	}
 
-	addIdentifiedAddon(specification, url) {
+	addIdentifiedAddonSpecification(specification, url) {
 
 		if (specification.MainClassFile != undefined) {
 			specification.MainClassFile = url + specification.MainClassFile;
@@ -32,7 +34,7 @@ class Core {
 		}
 
 
-		this.identifiedAddons.push(specification);
+		this.identifiedAddonSpecifications.push(specification);
 	}
 
 
@@ -41,7 +43,7 @@ class Core {
 	 * Identified addons should be considered to be addons that have been verified by the boot code.
 	 */
 	loadAllAddons() {
-		for (let addon of core.getIdentifiedAddons()) {
+		for (let addon of core.getIdentifiedAddonSpecifications()) {
 			if (addon.AddonType) {
 				
 				core.filesystem.readFile(addon.MainClassFile)
@@ -67,8 +69,16 @@ class Core {
 		}
 	}
 
-	getIdentifiedAddons() {
-		return this.identifiedAddons;
+	getIdentifiedAddonSpecifications() {
+		return this.identifiedAddonSpecifications;
+	}
+
+	getAddonSpecification(identifier) {
+		return new Promise(resolve  => {
+			resolve(this.identifiedAddonSpecifications.find(specification => {
+				return specification.AddonIdentifier === identifier;
+			}));
+		});
 	}
 
 	getActiveWidget() {
@@ -83,7 +93,10 @@ class Core {
 		// Delete any previous resources
 		$("head").find('.resource').remove();
 
-		let widget = new this.addons[identifier](this.addonSpecs[identifier]);
-		widget.start();
+		core.getAddonSpecification(identifier)
+		.then(specification => {
+			let widget = new this.addons[identifier](specification);
+			widget.start();
+		});
 	}
 }
