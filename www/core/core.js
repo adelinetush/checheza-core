@@ -90,13 +90,23 @@ class Core {
 	}
 
 	startWidget(identifier) {
-		// Delete any previous resources
-		$("head").find('.resource').remove();
+		if (identifier === "quit") {
+			if(core.utils.isPhone()) {
+				navigator.app.exitApp();
+			}
+			else {
+				console.info("Cannot close app in browser-mode");
+			}
+		}
+		else {
+			// Delete any previous resources
+			$("head").find('.resource').remove();
 
-		core.getAddonSpecification(identifier)
-		.then(specification => {
-			let widget = new this.addons[identifier](specification);
-			widget.start();
-		});
+			core.getAddonSpecification(identifier)
+			.then(specification => {
+				let widget = new this.addons[identifier](specification);
+				widget.start();
+			});
+		}
 	}
 }
