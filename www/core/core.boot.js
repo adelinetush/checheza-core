@@ -81,8 +81,22 @@ class Bootloader {
                     new Promise((resolve, reject) => {
                         core.filesystem.readFile(specificationUrl)
                             .then(data => {
+                                // Parse specification file data as a JSON string
                                 let spec = JSON.parse(data);
-                                core.addIdentifiedAddonSpecification(spec, specificationUrl.replace("specification.json", ""));
+
+                                // Get widget url
+                                let url = specificationUrl.replace("specification.json", "");
+
+                                if (spec.MainClassFile)
+                                    spec.MainClassFile = url + spec.MainClassFile;
+
+                                if (spec.MainView)
+                                    spec.MainView = url + spec.MainView;
+
+                                if (spec.Views)
+                                    $.each(spec.Views, (i, view) => { spec.Views[i] = url + spec.Views[i].file });
+
+                                core.addSpecification(spec); // Add loaded specification to core
                                 
                                 // Add message to bootscreen
                                 $('.status').append('<p class="animated fadeInUp">Identified: ' + spec.AddonIdentifier + '</p>');
@@ -112,7 +126,7 @@ class Bootloader {
         /**
          * First, collect all the addons dependencies.
          */
-        for ( let addon of core.getIdentifiedAddonSpecifications() ) {
+        for ( let addon of core.getAddonSpecifications() ) {
             // Make sure that the addon has dependencies.
             if (addon.Dependencies.length > 0) {
 
@@ -132,7 +146,7 @@ class Bootloader {
 
             // Run through the identified addons and compare their unique identifier
             // to the dependency identifier.
-            for (let addon of core.getIdentifiedAddons()) {
+            for (let addon of core.getAddons()) {
 
                 // If it matches, a dependency was met. Increment numDependencies by 1.
                 if (dependency == addon.AddonIdentifier) {
