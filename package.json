@@ -1,7 +1,7 @@
 {
-  "name": "se.laralearning.laraland.app",
+  "name": "com.checheza.checheza.app",
   "version": "1.0.0",
-  "displayName": "Laraland",
+  "displayName": "Checheza",
   "cordova": {
     "platforms": [
       "browser",
