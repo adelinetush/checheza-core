@@ -23,6 +23,7 @@
     }
   },
   "dependencies": {
+    "concurrently": "^4.0.1",
     "cordova-android": "^6.2.3",
     "cordova-android-support-gradle-release": "^1.4.4",
     "cordova-browser": "^5.0.3",
@@ -35,6 +36,6 @@
     "jsdoc-to-markdown": "^4.0.1"
   },
   "scripts": {
-    "start": "cordova run browser -- --live-reload --ignore=www/static/browserDbgAddr.js"
+    "start": "concurrently --kill-others \"cd browser-debug && PORT=27000 node browser-debug.js\" \"cordova run browser -- --live-reload --ignore=www/static/browserDbgAddr.js\""
   }
 }
