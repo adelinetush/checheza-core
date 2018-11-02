@@ -72,6 +72,18 @@ class Core {
 		return this.addons;
 	}
 
+	/**
+	 * @return {Array} returns all addons of a specific type
+	 * @param {type} WidgetType (ref:)
+	 */
+	getAllAddonsOfType(type) { 
+		return new Promise(resolve  => {
+			resolve(this.addons.find(addon => {
+				return addon.addonType === type;
+			}));
+		});
+	}
+
 
 	/**
 	 * @return {Array} returns all parsed addon specifications
@@ -117,9 +129,6 @@ class Core {
 			console.info("Cannot close app in browser-mode");
 		}
 		else {
-			
-			// Delete any previous resources to free up memory
-			$("head").find('.resource').remove();
 
 			core.getAddonSpecification(identifier) // Get addon with AddonIdentifier
 			.then(specification => {
