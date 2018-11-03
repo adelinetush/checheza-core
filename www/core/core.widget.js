@@ -10,6 +10,8 @@ class Widget extends Addon {
 		// get head from view and append to active head
 		Widget.changeView(this.identifier, this.mainView)
 			.then(() => {
+
+				
 				var scale = 'scale(1)';
 				document.body.style.webkitTransform = scale;     // Chrome, Opera, Safari
 				document.body.style.msTransform = scale;       // IE 9
@@ -21,12 +23,13 @@ class Widget extends Addon {
 
 				this.initialize();
 
-				$('#core_app_container').fadeIn(500);				
+				
+				$('#core_app_container').fadeIn(500);
+				
 			});
 	}
 
 	static changeView(identifier, viewurl) {
-
 		return new Promise((resolve, reject) => {
 			core.filesystem.readFile(viewurl)
 				.then(view => {
@@ -49,8 +52,12 @@ class Widget extends Addon {
 							var src = script.outerHTML.replace('src="', 'class="' + identifier.toLowerCase() + ' resource" src="addons/' + identifier.toLowerCase() + '/');
 							$('head').append(src);
 						});
+
+
+
+							resolve(v);
+	
 						
-						resolve(v);
 
 
 					});
