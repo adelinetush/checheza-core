@@ -13,3 +13,6 @@
 [submodule "www/addons/checheza.widget.memory"]
 	path = www/addons/checheza.widget.memory
 	url = https://github.com/checheza/checheza.widget.memory
+[submodule "www/addons/checheza.widget.blockmatch"]
+	path = www/addons/checheza.widget.blockmatch
+	url = git@github.com:checheza/checheza.widget.blockmatch.git
