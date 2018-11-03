@@ -13,6 +13,3 @@
 [submodule "www/addons/checheza.widget.memory"]
 	path = www/addons/checheza.widget.memory
 	url = https://github.com/checheza/checheza.widget.memory
-[submodule "www/addons/learnwithlara.widget.blockmatch"]
-	path = www/addons/learnwithlara.widget.blockmatch
-	url = https://github.com/parameter/learnwithlara.widget.blockmatch
