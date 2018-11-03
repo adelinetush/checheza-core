@@ -34,6 +34,11 @@ img { outline: none; }
   z-index: 9999;
 }
 
+#core_app_container {
+  width:100vw;
+  height:100vh;
+}
+
 .core_loading {
   width:100vw;
   height:100vh;
