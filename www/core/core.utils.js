@@ -25,7 +25,7 @@ class CoreUtils {
      */
     makeZoomable() {
         $('meta[name=viewport]').remove();
-		$('head').append('<meta name="viewport" content="width=device-width, initial-scale=yes">' );
+		$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">' );
     }
 
 
@@ -37,6 +37,7 @@ class CoreUtils {
         if(identifier === undefined)
             identifier = "checheza.main.treehouse";
 
-        $('body').append('<a class="core-exit-button" onclick="core.startWidget(\''+identifier+'\');"></a>')
+        $('#core_app_container').append('<a class="core-exit-button fadeIn animated" onclick="core.startWidget(\''+identifier+'\');"></a>')
     }
+
 }
