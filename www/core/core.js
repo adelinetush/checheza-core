@@ -129,6 +129,15 @@ class Core {
 			console.info("Cannot close app in browser-mode");
 		}
 		else {
+			// temporary
+			if(core.getActiveWidget().numberlineClass) { 
+				core.getActiveWidget().numberlineClass.loopedSounds.stop();
+			}
+
+			// temporary
+			if(core.getActiveWidget().blockmatch) {
+				core.getActiveWidget().blockmatch.backgroundLoop.stop();
+			}
 
 			core.getAddonSpecification(identifier) // Get addon with AddonIdentifier
 			.then(specification => {
