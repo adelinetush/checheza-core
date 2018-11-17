@@ -40,4 +40,18 @@ class CoreUtils {
         $('#core_app_container').append('<a class="core-exit-button fadeIn animated" onclick="core.startWidget(\''+identifier+'\');"></a>')
     }
 
+    adjustAspectRatio() {   
+        var outer = $('#core_container');
+        var box = $('#core_app_container');
+
+        if (outer.height() > outer.width() * 0.5625) {
+            box.css({'width': '100%'});
+            box.css({'height': box.width() * 0.5625});
+
+        } else {
+            box.css({'height': '100%'});
+            box.css({'width': box.height() / 0.5625});
+        }
+            
+    }
 }
