@@ -33,9 +33,19 @@ img { outline: none; }
   z-index: 9999;
 }
 
-#core_app_container {
+#core_container {
   width:100vw;
   height:100vh;
+  overflow:hidden;
+  position:relative;
+  margin:0 auto;
+
+}
+
+#core_app_container {
+  overflow:hidden;
+  height:100%;
+  margin:0 auto;
 }
 
 .core_loading {
