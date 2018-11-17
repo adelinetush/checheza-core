@@ -22,8 +22,6 @@ class Widget extends Addon {
 				$('head').append('<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">' );
 
 				this.initialize();
-
-				
 				$('#core_app_container').fadeIn(500);
 				
 			});
@@ -34,6 +32,10 @@ class Widget extends Addon {
 			core.filesystem.readFile(viewurl)
 				.then(view => {
 					$('#core_app_container').fadeOut(250, () => {
+						/** neautralize aspect ratio if it's called for from utils */
+						$('#core_app_container').css('width', 'auto');
+						$('#core_app_container').css('height', '100%');
+
 						// Delete any previous resources to free up memory
 						$("head").find('.resource').remove();
 						//append view body
@@ -52,14 +54,7 @@ class Widget extends Addon {
 							var src = script.outerHTML.replace('src="', 'class="' + identifier.toLowerCase() + ' resource" src="addons/' + identifier.toLowerCase() + '/');
 							$('head').append(src);
 						});
-
-
-
 							resolve(v);
-	
-						
-
-
 					});
 
 				}).catch(err => {
