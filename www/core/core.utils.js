@@ -25,7 +25,7 @@ class CoreUtils {
      */
     makeZoomable() {
         $('meta[name=viewport]').remove();
-		$('head').append('<meta name="viewport" content="width=device-width, initial-scale=yes">' );
+		$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">' );
     }
 
 
@@ -37,6 +37,21 @@ class CoreUtils {
         if(identifier === undefined)
             identifier = "checheza.main.treehouse";
 
-        $('body').append('<a class="core-exit-button" onclick="core.startWidget(\''+identifier+'\');"></a>')
+        $('#core_app_container').append('<a class="core-exit-button fadeIn animated" onclick="core.startWidget(\''+identifier+'\');"></a>')
+    }
+
+    adjustAspectRatio() {   
+        var outer = $('#core_container');
+        var box = $('#core_app_container');
+
+        if (outer.height() > outer.width() * 0.5625) {
+            box.css({'width': '100%'});
+            box.css({'height': box.width() * 0.5625});
+
+        } else {
+            box.css({'height': '100%'});
+            box.css({'width': box.height() / 0.5625});
+        }
+            
     }
 }
