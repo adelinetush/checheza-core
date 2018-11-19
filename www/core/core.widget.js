@@ -27,6 +27,20 @@ class Widget extends Addon {
 			});
 	}
 
+	getProgress(){
+		core.database.getProgress(this.identifier)
+		.then(result => {
+			return result;
+		})
+	}
+
+	saveProgress(progress) {
+		core.database.saveProgress(this.identifier, progress)
+		.then(() => {
+			return true;
+		})
+	}
+
 	static changeView(identifier, viewurl) {
 		return new Promise((resolve, reject) => {
 			core.filesystem.readFile(viewurl)
