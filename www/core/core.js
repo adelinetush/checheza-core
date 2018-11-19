@@ -21,6 +21,10 @@ class Core {
 
 		// Initialize filesystem access
 		this.filesystem = new CoreFilesystem();
+
+		// Initialize database
+		this.database = new CoreDatabase("1", "chechezaCoreDb", "Database for Checheza core", 2*1024*1024);
+		
 	}
 
 
