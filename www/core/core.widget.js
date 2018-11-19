@@ -20,22 +20,24 @@ class Widget extends Addon {
 			
 				$('meta[name=viewport]').remove();
 				$('head').append('<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">' );
-
-				this.initialize();
-				$('#core_app_container').fadeIn(500);
 				
+				if (typeof this.preinit === "function") {  
+					this.preinit();
+				}
+
+				window.addEventListener ? window.addEventListener("load",$('#core_app_container').fadeIn(1000, () => { this.initialize(); }),false) : window.attachEvent && window.attachEvent("onload",$('#core_app_container').fadeIn(1000, () => { this.initialize(); }));
 			});
 	}
 
 	getProgress(){
-		core.database.getProgress(this.identifier)
+		return core.database.getProgress(this.identifier)
 		.then(result => {
 			return result;
 		})
 	}
 
 	saveProgress(progress) {
-		core.database.saveProgress(this.identifier, progress)
+		return core.database.saveProgress(this.identifier, progress)
 		.then(() => {
 			return true;
 		})
