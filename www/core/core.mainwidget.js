@@ -1,5 +1,5 @@
 class MainWidget extends Widget {
-	constructor (specification, configuration) {
+	constructor (specification) {
 		super (specification);
 
 		// do stuff with configuration
