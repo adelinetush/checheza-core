@@ -4,7 +4,7 @@
 
 ##### Jenkins Build status
 Checheza for Android
-[![Build Status](http://83.253.39.22/jenkins/job/Laralearning/job/laraland-android/badge/icon)](http://83.253.39.22/jenkins/job/Laralearning/job/laraland-android/lastSuccessfulBuild/artifact/platforms/android/build/outputs/apk/android-armv7-debug.apk)
+[![Build Status](http://83.253.32.189/jenkins/job/Laralearning/job/laraland-android/badge/icon)](http://83.253.32.189/jenkins/job/Laralearning/job/laraland-android/lastSuccessfulBuild/artifact/platforms/android/build/outputs/apk/android-armv7-debug.apk)
 
 ##### How to build
 [Check the tutorial](https://github.com/checheza/checheza-core/wiki/Running-and-building-app)
