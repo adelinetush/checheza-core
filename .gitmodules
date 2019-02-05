@@ -16,3 +16,6 @@
 [submodule "www/addons/checheza.widget.blockmatch"]
 	path = www/addons/checheza.widget.blockmatch
 	url = git@github.com:checheza/checheza.widget.blockmatch.git
+[submodule "www/addons/checheza.skin.official"]
+	path = www/addons/checheza.skin.official
+	url = git@github.com:checheza/checheza.skin.official

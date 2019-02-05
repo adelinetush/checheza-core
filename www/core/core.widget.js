@@ -1,9 +1,35 @@
 class Widget extends Addon {
 	constructor(specification) {
 		super(specification);
+		this.skins = [];
+		if(specification.Skins) {
+			specification.Skins.map(skin => {
+				this.skins[Object.keys(skin)[0]] = { "addon": core.getAddon(Object.keys(skin)), "themes": skin[Object.keys(skin)] };
+			});
+		}
+	}
+
+	skin(identifier) { 
+		for(let skin in this.skins) { 
+			if(skin === identifier) { 
+				return this.skins[skin];
+			}
+		}
+
+		return undefined;
 	}
 
 	start() {
+		// Delete any previous resources to free up memory
+		$("head").find('.resource').remove();
+
+		if(this.skins) {
+			for(let skin in this.skins) {
+				this.skins[skin].themes.forEach(theme => {
+					$('head').append('<link class="resource" href="'+this.skins[skin].addon.getTheme(theme)+'" rel="stylesheet" type="text/css" />');
+				});
+			}
+		}
 
 		core.setActiveWidget(this);
 
@@ -52,8 +78,7 @@ class Widget extends Addon {
 						$('#core_app_container').css('width', 'auto');
 						$('#core_app_container').css('height', '100%');
 
-						// Delete any previous resources to free up memory
-						$("head").find('.resource').remove();
+
 						//append view body
 						$('#core_app_container').html("");
 						var jqView = $(view);

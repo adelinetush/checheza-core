@@ -1,7 +1,5 @@
 class Sounds extends Addon {
-	constructor (specification, soundmap) {
+	constructor (specification) {
 		super (specification);
-		
-		// do stuff with soundmap
 	}
 }

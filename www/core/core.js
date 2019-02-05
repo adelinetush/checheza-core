@@ -25,6 +25,8 @@ class Core {
 		// Initialize database
 		this.database = new CoreDatabase("1", "chechezaCoreDb", "Database for Checheza core", 2*1024*1024);
 		
+		// All skins
+		this.skins = [];
 	}
 
 
@@ -41,32 +43,31 @@ class Core {
 	 * Fetches all the parsed specifications and loads all addons into the applications.
 	 */
 	loadAllAddons() {
+		let loadedAddons = [];
+
 		for (let addon of core.getAddonSpecifications()) {
+			loadedAddons.push(new Promise(resolve => {
+				if (addon.AddonType === "Main" || addon.AddonType === "Widget") {
+				
+					core.filesystem.readFile(addon.MainClassFile) // Read main class file
+					.then((contents) => {
+						
+						$('head').append('<script type="text/javascript">'+contents+'</script>'); // Append class file to DOM
+						
+						const _addon = Function("param", "return new " + addon.MainClass + "(param)"); // Add function that returns a new obj call
+						this.addons[addon.AddonIdentifier] = _addon(addon);
+						resolve();
+					});
+				}
 
-			if (addon.AddonType) {
-			
-				core.filesystem.readFile(addon.MainClassFile) // Read main class file
-				.then((contents) => {
-					
-					$('head').append('<script type="text/javascript">'+contents+'</script>'); // Append class file to DOM
-
-					this.addons[addon.AddonIdentifier] = Function("param", "return new " + addon.MainClass + "(param)"); // Add function that returns a new obj call
-
-					if (addon.AddonType == "Skin" || addon.AddonType == "Sounds") {
-						// Here we should add the resources to a list
-					}
-
-					if (addon.AddonType == "Main" && this.activeWidget == null) {
-						// Instantiate main addon class //
-						let mainAddon = new this.addons[addon.AddonIdentifier](addon);
-
-						// Start main addon //
-						mainAddon.start();
-					}
-				});
-
-			}
+				if (addon.AddonType === "Skin") {
+					this.addons[addon.AddonIdentifier] = new Skin(addon);
+					resolve();
+				}
+			}));
 		}
+
+		return Promise.all(loadedAddons);
 	}
 
 	/**
@@ -76,15 +77,23 @@ class Core {
 		return this.addons;
 	}
 
+	getAddon(identifier) {
+		return this.addons[identifier];
+	}
+
 	/**
 	 * @return {Array} returns all addons of a specific type
 	 * @param {type} WidgetType (ref:)
 	 */
-	getAllAddonsOfType(type) { 
-		return new Promise(resolve  => {
-			resolve(this.addons.find(addon => {
-				return addon.addonType === type;
-			}));
+	getAllAddonsOfType(type) {
+		let result = [];
+		return new Promise(resolve => {
+			for (let addon in this.addons) {
+				if(this.addons[addon].addonType === type) {
+					result.push(this.addons[addon]);
+				}
+			}
+			resolve(result);
 		});
 	}
 
@@ -95,7 +104,7 @@ class Core {
 	getAddonSpecifications() {
 		return this.addonSpecifications;
 	}
-
+	
 	getAddonSpecification(identifier) {
 		return new Promise(resolve  => {
 			resolve(this.addonSpecifications.find(specification => {
@@ -143,12 +152,7 @@ class Core {
 				core.getActiveWidget().blockmatch.backgroundLoop.stop();
 			}
 
-			core.getAddonSpecification(identifier) // Get addon with AddonIdentifier
-			.then(specification => {
-				let widget = new this.addons[identifier](specification); // Instantiate new widget addon
-				widget.start(); // start widget addon
-			});
-
+			this.addons[identifier].start(); // start widget addon
 		}
 	}
 }
