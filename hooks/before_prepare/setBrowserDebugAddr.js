@@ -22,6 +22,5 @@ parseConfigJson = () => {
 }
 
 parseConfigJson();
-console.log("Hook is running!");
 
 
