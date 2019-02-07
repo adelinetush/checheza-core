@@ -9,12 +9,18 @@ class Skin extends Addon {
 			var resources = JSON.parse(resourceMap);
 			Object.keys(resources.css)
 			.forEach(key => {
-				resources.css[key] = this.fullPath + "/" + resources.css[key];
+				if(core.utils.isPhone())
+					resources.css[key] = this.path + "/" + resources.css[key];
+				else 
+					resources.css[key] = this.fullPath + "/" + resources.css[key];
 			});
 
 			Object.keys(resources.assets)
 			.forEach(key => {
-				resources.assets[key] = this.fullPath +  "/" + resources.assets[key]
+				if(core.utils.isPhone())
+					resources.assets[key] = this.path +  "/" + resources.assets[key]
+				else
+					resources.assets[key] = this.fullPath +  "/" + resources.assets[key]
 			});
 
 			this.resources = resources;
