@@ -1,0 +1,13 @@
+{
+	"Name": "Treehouse",
+	"AddonIdentifier": "checheza.main.treehouse",
+	"Author": "Learn with Lara",
+	"Version": "0.0.1",
+	"SupportedCores": ["0.0.1"],
+	"AddonType": "Main",
+	"Dependencies": [ "checheza.skin.official" ],
+	"MainClass": "Treehouse",
+	"MainClassFile": "treehouse.js",
+	"MainView": "treehouse.html",
+	"Skins": [ { "checheza.skin.official": [ "general", "treehouse"] } ]
+}

@@ -1,0 +1,10 @@
+{
+	"Name": "Official skin",
+	"AddonIdentifier": "checheza.skin.official",
+	"Author": "Checheza AB",
+	"Version": "0.0.1",
+	"SupportedCores": ["0.0.1"],
+	"AddonType": "Skin",
+    "Dependencies": [],
+    "ResourceMap": "resourcemap.json"
+}

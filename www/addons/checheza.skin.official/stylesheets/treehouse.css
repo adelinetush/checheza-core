@@ -1,0 +1,119 @@
+
+  ::-webkit-scrollbar { 
+      display: none; 
+  }
+
+  #widgetBackground {
+    background-color: #5fccff;
+    width:100%;
+    height:100%;
+    float:left;
+    margin:0;
+    padding:0;
+  }
+
+  @keyframes item-fadeIn { 
+    0% { opacity:0; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+  }
+  
+  @keyframes tree-climb { 
+    from {
+      background-position-y: 50%;
+    }
+    to { 
+      background-position-y: 10%;
+    }
+  }
+
+  .fadeindelay { 
+    animation: item-fadeIn 2s forwards;
+  }
+
+  .climb {
+    animation: tree-climb 5s forwards;
+  }
+
+  .climb-fast {
+    animation: tree-climb 1s forwards;
+  }
+
+  #tree {
+    float:left;
+    will-change: background-position-y;
+    background-image: url(../assets/treehouse/treehouse.png);
+    z-index:2;
+    overflow:visible;
+    background-repeat:repeat-x;
+    background-size:100% 300%;
+    background-position-y: 50%;
+    width:inherit;
+    position:relative;
+    top:0;
+    height:inherit;
+  }
+
+  .widget {
+    opacity:0;
+  }
+  
+  #checheza_widget_bookshelf {
+    width: 4%;
+    height: 9%;
+    background-image: url(../assets/treehouse/bookshelf.png);
+    background-size: 100% 100%;
+    position: inherit;
+    top: 62%;
+    left: 65%;
+    z-index: 5;
+  }
+  
+  #checheza_widget_memory {
+    background-image: url(../assets/treehouse/blocks.png);
+    width: 5%;
+    height: 6%;
+    background-size: 100% 100%;
+    position: inherit;
+    top: 69%;
+    left: 37%;
+    z-index: 5;
+    opacity:0;
+  }
+
+  #checheza_widget_numberline {
+    width: 4%;
+    height: 8%;
+    background-image: url(../assets/treehouse/calculator.png);
+    background-size: 100% 100%;
+    position: inherit;
+    top: 37%;
+    left: 38%;
+    z-index: 5;
+}
+
+  #checheza_widget_lettertracing {
+    will-change: transform;
+    transform: translateZ(0);
+    background-image: url(../assets/treehouse/alphabet.png);
+    width: 5%;
+    height: 7%;
+    background-size: 100% 100%;
+    position: inherit;
+    top: 12%;
+    left: 68%;
+    z-index: 5;
+  }
+
+  #checheza_widget_blockmatch {
+    will-change: transform;
+    transform: translateZ(0);
+    background-image: url(../assets/treehouse/blockmatch.png);
+    width: 7%;
+    height: 4%;
+    background-size: 100% 100%;
+    position: inherit;
+    top: 21%;
+    left: 28%;
+    z-index: 5;
+  }

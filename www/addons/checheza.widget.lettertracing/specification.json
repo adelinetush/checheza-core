@@ -1,0 +1,13 @@
+{
+	"Name": "Lettertracing",
+	"AddonIdentifier": "checheza.widget.lettertracing",
+	"Author": "Pär henriksson",
+	"Version": "0.0.1",
+	"SupportedCores": ["0.0.1"],
+	"AddonType": "Widget",
+	"Dependencies": [],
+	"MainClass": "Level_two",
+	"MainClassFile": "mainscreen.js",
+	"MainView": "index.html",
+	"Skins": [ { "checheza.skin.official": [ "general", "lettertracing"] } ]
+}

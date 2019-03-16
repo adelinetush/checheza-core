@@ -1,0 +1,137 @@
+@font-face {
+    font-family: 'aldibold';
+    src: url('../assets/general/fonts/aldi-bold-webfont.woff2') format('woff2'),
+	url('../assets/general/fonts/aldi-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.core-exit-button { 
+    position: absolute;
+	top:20px;
+	right: 20px;
+	text-align: right;
+	width: 30px;
+    height: 30px;
+    background-image: url(../assets/general/exit.png);
+    background-size: 100% 100%;
+    background-repeat: none;
+    z-index: 9999;
+}
+
+.paper-background {
+    background-image: url('../assets/general/paper_bg.jpg');
+    background-repeat: repeat;
+}
+
+.sky { 
+    width:inherit;
+    height:inherit;
+    position: relative;
+    top:0;
+    left:0;
+    overflow:hidden;
+}
+
+.sky .cloud_1 {
+    will-change: transform;
+    transform: translateZ(0);
+    background-image: url(../assets/treehouse/clouds.png);
+    overflow: hidden;
+    position: inherit;
+    bottom: 0vh;
+    z-index: 0;
+    left: 0vw;
+    background-size: 100vw 100vh;
+    width: 200vw;
+    height: 100vh;
+    margin-top:0vh;
+}
+
+.sky .cloud_2 {
+    will-change: transform;
+    transform: translateZ(0);
+    background-image: url(../assets/treehouse/clouds2.png);
+    overflow: hidden;
+    position: inherit;
+    z-index: 0;
+    background-size: 100vw 100vh;
+    bottom: 0vh;
+    left: 0vw;
+    margin-top:-100vh;
+    width: 200vw;
+    height: 100vh;
+}
+
+#slider { 
+    width: 70%;
+    position: relative;
+    top: 60%;
+    padding: 6.1% 5%;
+    background-size: contain;
+    left: 10%;
+    height: 8%;
+    z-index: 1;
+    background-image: url(../assets/numberline/board.png);
+    
+}
+
+#slider .block { 
+    width: 9%;
+    height: 85%;
+    background-image: url(../assets/numberline/block.png);
+    background-size: 100% 100%;
+    float: left;
+    margin-left: 1%;
+}
+
+#slider .block:first-child {
+    margin-left: 0%;
+}
+
+.not-selectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#cursor {
+    width: 10%;
+    height: 20%;
+    background-image: url(../assets/numberline/pointer.png);
+    width: 80%;
+    position: relative;
+    top: 90%;
+    left: 10%;
+    height: 8%;
+    z-index: 2;
+}
+
+.animate.move-left {
+    animation: move-left linear;
+}
+
+.animate.move-right {
+    animation: move-right linear;
+}
+
+.animate.very-slow {
+    animation-duration: 120s;
+}
+
+.animate.infinite { 
+    animation-iteration-count: infinite;
+}
+
+@keyframes move-left {
+    from {  -webkit-transform: translateX(0vw);  }
+    to { -webkit-transform: translateX(-100%); }
+  }
+
+@keyframes move-right { 
+    from { -webkit-transform: translateX(0); }
+    to { -webkit-transform: translateX(100%); }
+}

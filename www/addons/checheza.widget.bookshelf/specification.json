@@ -1,0 +1,17 @@
+{
+	"Name": "Bookshelf",
+	"AddonIdentifier": "checheza.widget.bookshelf",
+	"Author": "Learn with Lara",
+	"Version": "0.0.1",
+	"SupportedCores": ["0.0.1"],
+	"AddonType": "Widget",
+	"Dependencies": [],
+	"MainClass": "Bookshelf",
+	"MainClassFile": "bookshelf.js",
+	"MainView": "bookshelf.html",
+	"Views": [
+		{ "name": "bookview", 
+		  "file": "views/bookview.html" }
+	],
+	"Skins": [ { "checheza.skin.official": [ "general", "bookshelf", "slick"] } ]
+}

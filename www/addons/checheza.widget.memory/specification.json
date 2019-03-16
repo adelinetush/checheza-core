@@ -1,0 +1,13 @@
+{
+	"Name": "Memory",
+	"AddonIdentifier": "checheza.widget.memory",
+	"Author": "Learn with Lara",
+	"Version": "0.0.1",
+	"SupportedCores": ["0.0.1"],
+	"AddonType": "Widget",
+	"Dependencies": [],
+	"MainClass": "Memory",
+	"MainClassFile": "memory.js",
+	"MainView": "views/main.html",
+	"Skins": [ { "checheza.skin.official": [ "general" ]}]
+}
