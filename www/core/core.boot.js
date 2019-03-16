@@ -8,13 +8,8 @@ class Bootloader {
 
         // Instantiate core
         core = new Core();
-<<<<<<< Updated upstream
-
-        
-=======
         core.initializeResizeListeer();
 
->>>>>>> Stashed changes
         $.getScript("static/browserDbgAddr.js")
         .done( () => { 
             core.filesystem.initialize() // initialize filesystem
@@ -193,19 +188,6 @@ class Bootloader {
 
 
 document.addEventListener("deviceready", () => {
-<<<<<<< Updated upstream
-    Bootloader.tryInit(0);  
-=======
     Bootloader.tryInit(0);
-
-
-    document.addEventListener('pause', function() {
-        // Tell your audio library to pause here
-      });
-
-      document.addEventListener('resume', function() {
-        // Tell your audio library to start playing again
-      });
->>>>>>> Stashed changes
 });
 
