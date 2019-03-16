@@ -21,8 +21,18 @@ class Bootloader {
                         return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
                     }).then(specifications => {
                         if (Bootloader.isAllDependenciesMet()) {
-                            core.loadAllAddons();
+                            return core.loadAllAddons();
+                        } else {
+                            throw("All dependencies not met.");
                         }
+                    }).then(() => {
+                        $('.status').append('<p class="animated fadeInUp">All addons loaded... Starting</p>');                        
+                        core.getAllAddonsOfType("Main")
+                        .then(mainAddons => {
+                            console.log(mainAddons);
+
+                            mainAddons[0].start();
+                        });
                     }).catch((error) => {
                         throw ("Could not read addonfolders properly! " + error)
                     });
@@ -92,12 +102,15 @@ class Bootloader {
 
                                 if (spec.MainView)
                                     spec.MainView = url + spec.MainView;
+                                
+                                if (spec.ResourceMap)
+                                    spec.ResourceMap = url + spec.ResourceMap;
 
                                 if (spec.Views)
                                     $.each(spec.Views, (i, view) => { spec.Views[i] = url + spec.Views[i].file });
 
                                 core.addSpecification(spec); // Add loaded specification to core
-                                
+
                                 // Add message to bootscreen
                                 $('.status').append('<p class="animated fadeInUp">Identified: ' + spec.AddonIdentifier + '</p>');
                                 resolve(spec);
@@ -132,7 +145,7 @@ class Bootloader {
 
                 // If it does, add dependencies to dependencyList.
                 for (let dependency of addon.Dependencies) {
-                    dependencyList.push(addon.Dependencies);
+                    dependencyList.push(dependency);
                 }
             }
         }
@@ -146,8 +159,7 @@ class Bootloader {
 
             // Run through the identified addons and compare their unique identifier
             // to the dependency identifier.
-            for (let addon of core.getAddons()) {
-
+            for (let addon of core.getAddonSpecifications()) {
                 // If it matches, a dependency was met. Increment numDependencies by 1.
                 if (dependency == addon.AddonIdentifier) {
                     numDependenciesMet += 1;
@@ -186,6 +198,9 @@ class Bootloader {
     }
 }
 
+var coreheight = false;
+var corewidth = false;
+var oldHeight = 0;
 
 document.addEventListener("deviceready", () => {
     Bootloader.tryInit(0);

@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 parseConfigJson = () => {
-	fs.readFile('./browser-debug/package.json', 'utf8', (error, config) => {
+	fs.readFile('./package.json', 'utf8', (error, config) => {
 		config = JSON.parse(config);
-		port = config.scripts.start.split(" ")[0].split("=")[1];
+		port = config.scripts.start.split(" ")[5].split("=")[1];
 
 		var script = '\
 		var getUrl = window.location; \
@@ -22,6 +22,5 @@ parseConfigJson = () => {
 }
 
 parseConfigJson();
-console.log("Hook is running!");
 
 

@@ -35,13 +35,24 @@ class Widget extends Addon {
 	 * Only used by core to start a new widget.
 	 */
 	start() {
+		// Delete any previous resources to free up memory
+		$("head").find('.resource').remove();
+
+		if(this.skins) {
+			for(let skin in this.skins) {
+				this.skins[skin].themes.forEach(theme => {
+					$('head').append('<link class="resource" href="'+this.skins[skin].addon.getTheme(theme)+'" rel="stylesheet" type="text/css" />');
+				});
+			}
+		}
 
 		core.setActiveWidget(this);
 
 		// get head from view and append to active head
 		Widget.changeView(this.identifier, this.mainView)
 			.then(() => {
-				$('body').removeAttr("style");
+
+				
 				var scale = 'scale(1)';
 				document.body.style.webkitTransform = scale;     // Chrome, Opera, Safari
 				document.body.style.msTransform = scale;       // IE 9
@@ -50,8 +61,12 @@ class Widget extends Addon {
 			
 				$('meta[name=viewport]').remove();
 				$('head').append('<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">' );
+				
+				if (typeof this.preinit === "function") {  
+					this.preinit();
+				}
 
-				this.initialize();
+				window.addEventListener ? window.addEventListener("load",$('#core_app_container').fadeIn(1000, () => { this.initialize(); }),false) : window.attachEvent && window.attachEvent("onload",$('#core_app_container').fadeIn(1000, () => { this.initialize(); }));
 			});
 	}
 
@@ -83,7 +98,6 @@ class Widget extends Addon {
 	 * @ignore
 	 */
 	static changeView(identifier, viewurl) {
-
 		return new Promise((resolve, reject) => {
 			core.filesystem.readFile(viewurl)
 				.then(view => {
@@ -95,18 +109,13 @@ class Widget extends Addon {
 
 						// empty view body
 						$('#core_app_container').html("");
-						
+						$('#core_background_container').html("");
 						// append view
 						$('#core_app_container').html(view);
 
 						resolve(view);
 					});
 
-					let v = /<body.*?>([\s\S]*)<\/body>/.exec(view)[1];
-
-					//append view body
-					$('body').html(v);
-					resolve(v)
 				}).catch(err => {
 					reject(err);
 				});

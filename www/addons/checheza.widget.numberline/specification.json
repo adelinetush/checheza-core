@@ -1,0 +1,13 @@
+{
+    "Name": "Numberline",
+    "AddonIdentifier": "checheza.widget.numberline",
+    "Author": "Checheza AB",
+    "Version": "0.0.1",
+    "SupportedCores": ["0.0.1"],
+    "AddonType": "Widget", 
+    "Dependencies": [],
+    "MainClass": "Numberline",
+    "MainClassFile": "numberline.js",
+    "MainView": "index.html",
+    "Skins": [ { "checheza.skin.official": [ "general", "reset" ]}]
+}

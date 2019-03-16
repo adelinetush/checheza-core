@@ -1,9 +1,8 @@
-body { margin: 0px; padding: 0px; background-color:#5A50DC; overflow:hidden;}
+body { margin: 0px; padding: 0px; background-color:#000; overflow:hidden;}
 
 img { outline: none; }
 .logo {
   width: 20vw;
-  height: 20vh;
   margin-left:40vw;
   margin-top:30vh;
 }
@@ -13,7 +12,7 @@ img { outline: none; }
   height:20vh;
   color:#ccc;
   text-align:center;
-  font-family: FontAwesome;
+  font-family: arial;
   font-size:1.3vh;
 }
 
