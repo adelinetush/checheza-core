@@ -37,6 +37,40 @@ class CoreUtils {
         if(identifier === undefined)
             identifier = "checheza.main.treehouse";
 
-        $('body').append('<a class="core-exit-button" onclick="core.startWidget(\''+identifier+'\');"></a>')
+        $('#core_app_container').append('<a class="core-exit-button fadeIn animated" onclick="core.startWidget(\''+identifier+'\');"></a>')
+    }
+
+    adjustAspectRatioFor(boxElem) { 
+        var outer = $('#core_container');
+        var box = $(boxElem);
+
+            if (outer.height() > outer.width() * 0.5625) {
+                box.css({'width': '100%'});
+                box.css({'height': box.width() * 0.5625});
+
+            } else {
+                box.css({'height': '100%'});
+                box.css({'width': box.height() / 0.5625});
+            }
+        
+    }
+
+    adjustAspectRatio() {   
+        this.adjustAspectRatioFor("#core_app_container");
+        this.adjustAspectRatioFor("#core_background_container");
+    }
+
+    setSkyColor(colorCode) { 
+        $('.sky').css('backgroundColor', colorCode);
+    }
+
+    addSky(weather) {
+        var backgroundElem = $("#core_background_container");
+
+        switch(weather) {
+            case 'partly-cloudy':
+                backgroundElem.prepend('<div class="sky"><div class="cloud_1 animate very-slow move-left infinite"></div><div class="cloud_2 animate very-slow move-right infinite"></div></div>');
+                break;
+        }
     }
 }

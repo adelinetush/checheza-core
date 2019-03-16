@@ -15,6 +15,7 @@
     <script type="text/javascript" src="static/lodash.js"></script>
     <script type="text/javascript" src="static/hammer.min.js"></script>
     <script type="text/javascript" src="static/phaser.js"></script>
+    <script src="slick.min.js" rel="javascript" type="text/javascript"> </script>
 
     <script type="text/javascript" src="core/core.js"></script>
     <script type="text/javascript" src="core/core.fs.js"></script>
@@ -25,8 +26,26 @@
     <script type="text/javascript" src="core/core.boot.js"></script>
   </head>
   <body>
-      <!-- Bootscreen -->
-      <img class="logo infinite pulse animated" src="static/logo_white.png" alt="logo" />
-      <div class="status"><div> 
+      <!-- 
+        coming soon
+        <div id="core_utils_container">
+        <audio id="core_audio_player"> 
+          
+        </audio>
+      </div> -->
+      <div id="core_container">
+        <div id="core_app_container">
+          <div class="core_loading">
+            <img class="logo infinite pulse animated" src="static/logo_white.png" alt="logo" />
+            <div class="status"></div> 
+          </div>
+        </div>
+        <div id="core_background_container">
+
+        </div>
+    </div>
+    <div id="core_resize_overlay">
+      <h1> Adjusting aspect ratio </h1>
+    </div>
   </body>
 </html>

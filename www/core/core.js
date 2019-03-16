@@ -21,6 +21,29 @@ class Core {
 
 		// Initialize filesystem access
 		this.filesystem = new CoreFilesystem();
+
+		// Initialize database
+		this.database = new CoreDatabase("1", "chechezaCoreDb", "Database for Checheza core", 2*1024*1024);
+		
+		// All skins
+		this.skins = [];
+
+		this.countdown = 0;
+	}
+
+	initializeResizeListeer() {
+		$(window).on("resize", () => {
+			$("#core_resize_overlay").show(100);
+			this.countdown += 1;
+			
+			setTimeout(()=>{
+				this.countdown-=1;
+				if(this.countdown === 0) {
+					core.utils.adjustAspectRatio();
+					$("#core_resize_overlay").hide(100);
+				}
+			},1000);
+		})
 	}
 
 
@@ -117,16 +140,7 @@ class Core {
 			console.info("Cannot close app in browser-mode");
 		}
 		else {
-			
-			// Delete any previous resources to free up memory
-			$("head").find('.resource').remove();
-
-			core.getAddonSpecification(identifier) // Get addon with AddonIdentifier
-			.then(specification => {
-				let widget = new this.addons[identifier](specification); // Instantiate new widget addon
-				widget.start(); // start widget addon
-			});
-
+			this.addons[identifier].start(); // start widget addon
 		}
 	}
 }
