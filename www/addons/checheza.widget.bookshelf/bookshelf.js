@@ -131,8 +131,9 @@ class Bookshelf extends Widget {
   }
 
   openBook(id) {
-    Widget.changeView(this.identifier, this.views[0])
-      .then(() => {
+
+    this.loadView("bookview")
+      .then(() => { 
         // Add exit button
         core.utils.addExitButton('checheza.widget.bookshelf');
         core.utils.adjustAspectRatio();
@@ -184,8 +185,6 @@ class Bookshelf extends Widget {
 
           });
 
-        $('.widgetBackground').hide().fadeIn(200);
-        $('#core_app_container').fadeIn(500);
       });
   }
 }
