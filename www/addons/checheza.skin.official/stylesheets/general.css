@@ -1,22 +1,20 @@
 @font-face {
-    font-family: 'aldibold';
+    font-family: 'AldiBold';
     src: url('../assets/general/fonts/aldi-bold-webfont.woff2') format('woff2'),
-	url('../assets/general/fonts/aldi-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+    url('../assets/general/fonts/aldi-bold-webfont.woff') format('woff');
 }
 
 .core-exit-button { 
-    position: absolute;
-	top:20px;
-	right: 20px;
-	text-align: right;
-	width: 30px;
-    height: 30px;
+    position: relative ;
+	top: 5%;
+	left: 92.5%;
+	width: 2.5vw;
+    height: 2.5vw;
     background-image: url(../assets/general/exit.png);
     background-size: 100% 100%;
     background-repeat: none;
     z-index: 9999;
+    display:block;
 }
 
 .paper-background {
@@ -63,31 +61,7 @@
     height: 100vh;
 }
 
-#slider { 
-    width: 70%;
-    position: relative;
-    top: 60%;
-    padding: 6.1% 5%;
-    background-size: contain;
-    left: 10%;
-    height: 8%;
-    z-index: 1;
-    background-image: url(../assets/numberline/board.png);
-    
-}
 
-#slider .block { 
-    width: 9%;
-    height: 85%;
-    background-image: url(../assets/numberline/block.png);
-    background-size: 100% 100%;
-    float: left;
-    margin-left: 1%;
-}
-
-#slider .block:first-child {
-    margin-left: 0%;
-}
 
 .not-selectable {
     -webkit-touch-callout: none;
@@ -98,7 +72,7 @@
     user-select: none;
 }
 
-#cursor {
+#pointer {
     width: 10%;
     height: 20%;
     background-image: url(../assets/numberline/pointer.png);
@@ -134,4 +108,35 @@
 @keyframes move-right { 
     from { -webkit-transform: translateX(0); }
     to { -webkit-transform: translateX(100%); }
+}
+
+.grass {
+    z-index: 1;
+    background-color: #52BE58;
+    background-image: url('../assets/general/grass.png');
+}
+
+.h50 { 
+    height: 50%;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.relative { 
+    position: relative;
+}
+
+.pt50 { 
+    top: 50%;
+}
+
+.hill {
+    -webkit-clip-path: polygon(0% 100%, 0% 6%, 16% 4%, 28% 2%, 34% 2%, 40% 2%, 46% 4%, 56% 6%, 63% 6%, 73% 5%, 79% 4%, 87% 2%, 92% 2%, 98% 3%, 100% 5%, 100% 98%, 100% 100%);
+    clip-path: polygon(0% 100%, 0% 6%, 16% 4%, 28% 2%, 34% 2%, 40% 2%, 46% 4%, 56% 6%, 63% 6%, 73% 5%, 79% 4%, 87% 2%, 92% 2%, 98% 3%, 100% 5%, 100% 98%, 100% 100%);
+}
+
+.push {
+    transform: scale(0.9, 0.9);
 }
