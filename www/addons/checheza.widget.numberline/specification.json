@@ -9,5 +9,5 @@
     "MainClass": "Numberline",
     "MainClassFile": "numberline.js",
     "MainView": "index.html",
-    "Skins": [ { "checheza.skin.official": [ "general", "reset" ]}]
+    "Skins": [ { "checheza.skin.official": [ "general", "numberline", "reset" ]}]
 }
