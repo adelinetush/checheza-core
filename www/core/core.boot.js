@@ -29,8 +29,6 @@ class Bootloader {
                         $('.status').append('<p class="animated fadeInUp">All addons loaded... Starting</p>');                        
                         core.getAllAddonsOfType("Main")
                         .then(mainAddons => {
-                            console.log(mainAddons);
-
                             mainAddons[0].start();
                         });
                     }).catch((error) => {
@@ -78,7 +76,7 @@ class Bootloader {
             .then(specifications => {
                 return specifications;
             });
-
+            
     }
 
 
@@ -107,7 +105,7 @@ class Bootloader {
                                     spec.ResourceMap = url + spec.ResourceMap;
 
                                 if (spec.Views)
-                                    $.each(spec.Views, (i, view) => { spec.Views[i] = url + spec.Views[i].file });
+                                    $.each(spec.Views, (i, view) => { spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file } });
 
                                 core.addSpecification(spec); // Add loaded specification to core
 

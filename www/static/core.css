@@ -36,6 +36,14 @@ img { outline: none; }
 }
 
 #core_background_container { 
+  overflow:hidden;
+  height: 100%;
+  margin:-100vh auto 0 auto;
+}
+
+#core_ui_container { 
+  overflow:hidden;
+  height: 100;
   margin:-100vh auto 0 auto;
 }
 
