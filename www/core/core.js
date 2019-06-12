@@ -31,7 +31,7 @@ class Core {
 		this.countdown = 0;
 	}
 
-	initializeResizeListeer() {
+	initializeResizeListener() {
 		$(window).on("resize", () => {
 			$("#core_resize_overlay").show(100);
 			this.countdown += 1;
@@ -40,6 +40,7 @@ class Core {
 				this.countdown-=1;
 				if(this.countdown === 0) {
 					core.utils.adjustAspectRatio();
+					core.utils.alignScreenLayers();
 					$("#core_resize_overlay").hide(100);
 				}
 			},1000);

@@ -8,7 +8,7 @@ class Bootloader {
 
         // Instantiate core
         core = new Core();
-        core.initializeResizeListeer();
+        core.initializeResizeListener();
 
         $.getScript("static/browserDbgAddr.js")
         .done( () => { 

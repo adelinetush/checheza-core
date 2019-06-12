@@ -33,18 +33,21 @@ img { outline: none; }
   overflow:hidden;
   height:100%;
   margin:0 auto;
+  z-index:10;
 }
 
 #core_background_container { 
   overflow:hidden;
   height: 100%;
-  margin:-100vh auto 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #core_ui_container { 
   overflow:hidden;
   height: 100;
-  margin:-100vh auto 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #core_resize_overlay { 

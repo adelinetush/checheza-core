@@ -180,7 +180,7 @@ class NumberlineSlider {
 
     createNumberline() {
         this.context.beginPath();
-        this.context.lineWidth = 9;
+        this.context.lineWidth = this.height*0.05;
         this.context.lineCap = "round";
         this.context.strokeStyle = this.color;
         this.context.moveTo(15, this.height - (0.52 * this.height));

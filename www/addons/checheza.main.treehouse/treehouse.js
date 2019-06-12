@@ -6,6 +6,7 @@ class Treehouse extends MainWidget {
 	preinit() {
 		// adjust aspect ratio
 		core.utils.adjustAspectRatio();
+		core.utils.alignScreenLayers();
 		core.utils.addSky('partly-cloudy');
         core.utils.setSkyColor("#55ddff");
 	}

@@ -53,6 +53,12 @@ class CoreUtils {
         }
     }
 
+    alignScreenLayers() {
+        let gameScreenHeight = $('#core_app_container').height();
+        $("#core_background_container").css('marginTop', gameScreenHeight*-1);
+        $("#core_ui_container").css('marginTop', gameScreenHeight*-1);
+    }
+
     adjustAspectRatio() {
         this.adjustAspectRatioFor("#core_app_container");
         this.adjustAspectRatioFor("#core_background_container");

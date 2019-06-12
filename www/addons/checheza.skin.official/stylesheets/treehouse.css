@@ -59,48 +59,51 @@
   }
   
   #checheza_widget_bookshelf {
-    width: 4%;
-    height: 9%;
-    background-image: url(../assets/treehouse/bookshelf.png);
-    background-size: 100% 100%;
+    width: 6%;
+    height: 13%;
+    background-image: url(../assets/treehouse/icon-bookshelf.png);
+    background-size: 83% 93%;
+    background-repeat: no-repeat;
     position: inherit;
-    top: 62%;
-    left: 65%;
+    top: 60%;
+    left: 63%;
     z-index: 5;
   }
   
   #checheza_widget_memory {
-    background-image: url(../assets/treehouse/blocks.png);
-    width: 5%;
-    height: 6%;
-    background-size: 100% 100%;
+    background-image: url(../assets/treehouse/icon-memory.png);
+    width: 8%;
+    height: 10%;
+    background-size: 85% 100%;
+    background-repeat: no-repeat;
     position: inherit;
-    top: 69%;
+    top: 62%;
     left: 37%;
     z-index: 5;
-    opacity:0;
+    opacity: 0;
   }
 
   #checheza_widget_numberline {
-    width: 4%;
-    height: 8%;
-    background-image: url(../assets/treehouse/calculator.png);
-    background-size: 100% 100%;
+    width: 7%;
+    height: 10%;
+    background-image: url(../assets/treehouse/icon-numberline.png);
+    background-size: 97% 54%;
+    background-repeat: no-repeat;
     position: inherit;
-    top: 37%;
-    left: 38%;
+    top: 31%;
+    left: 37%;
     z-index: 5;
 }
 
   #checheza_widget_lettertracing {
     will-change: transform;
     transform: translateZ(0);
-    background-image: url(../assets/treehouse/alphabet.png);
-    width: 5%;
-    height: 7%;
+    background-image: url(../assets/treehouse/icon-tracingletters.png);
+    width: 6%;
+    height: 11%;
     background-size: 100% 100%;
     position: inherit;
-    top: 12%;
+    top: -2%;
     left: 68%;
     z-index: 5;
   }
@@ -108,12 +111,12 @@
   #checheza_widget_blockmatch {
     will-change: transform;
     transform: translateZ(0);
-    background-image: url(../assets/treehouse/blockmatch.png);
-    width: 7%;
+    background-image: url(../assets/treehouse/icon-blockmatch.png);
+    width: 8%;
     height: 4%;
     background-size: 100% 100%;
     position: inherit;
-    top: 21%;
-    left: 28%;
+    top: 7%;
+    left: 27%;
     z-index: 5;
   }

@@ -9,6 +9,9 @@ class Bookshelf extends Widget {
     this.audioTimeout = null;
     this.books = [];
 
+    this.touch;
+    this.mc;
+
     this.colors = {
       "a": "#000000",
       "b": "#000000",
@@ -113,12 +116,12 @@ class Bookshelf extends Widget {
     }
 
     if (to < 0) {
-      core.startWidget(this.identifier)
+      this.closeBook();
     }
 
 
     if (to >= this.currentBook.pages - 1) {
-      core.startWidget(this.identifier)
+      this.closeBook();
     }
   }
 
@@ -130,29 +133,46 @@ class Bookshelf extends Widget {
     this.changePage(this.currentPage - 1);
   }
 
-  openBook(id) {
+  closeBook() {
+    this.mc.off('swipeleft');
+    this.mc.off('swiperight');
+    this.touch.off('singletap');
+    this.touch.off('doubletap');
+    this.mc.destroy();
+    this.touch.destroy();
+    
+    this.loadView(core.getActiveWidget().mainView)
+    .then(() => { 
 
+      this.preinit();
+      this.initialize();
+    });
+  }
+
+  openBook(id) {
     this.loadView("bookview")
       .then(() => { 
+        this.currentPage = 0;
+        this.touch = new Hammer.Manager(document.getElementById("core_container"))
+        this.mc = new Hammer(document.getElementById("core_container"));
         // Add exit button
-        core.utils.addExitButton('checheza.widget.bookshelf');
         core.utils.adjustAspectRatio();
+        core.utils.alignScreenLayers();
+        $('#core_ui_container').append('<a class="core-exit-button fadeIn animated" onclick="core.getActiveWidget().closeBook();"></a>')
 
         this.currentBook = this.books.find(book => book.id === id);
         this.playAudio(0);
 
-        var touch = new Hammer.Manager(document.getElementById("bookswipe"))
-        var mc = new Hammer(document.getElementById("bookswipe"));
         // Tap recognizer with minimal 2 taps
-        touch.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+        this.touch.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
         // Single tap recognizer
-        touch.add(new Hammer.Tap({ event: 'singletap' }));
+        this.touch.add(new Hammer.Tap({ event: 'singletap' }));
         // we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
-        touch.get('doubletap').recognizeWith('singletap');
+        this.touch.get('doubletap').recognizeWith('singletap');
         // we only want to trigger a tap, when we don't have detected a doubletap
-        touch.get('singletap').requireFailure('doubletap');
+        this.touch.get('singletap').requireFailure('doubletap');
 
-        mc.on("swipeleft swiperight", (event) => {
+        this.mc.on("swipeleft swiperight", (event) => {
           switch (event.type) {
             case "swiperight":
               this.prevPage();
@@ -163,7 +183,7 @@ class Bookshelf extends Widget {
           }
         });
 
-        touch.on("singletap doubletap", (event) => {
+        this.touch.on("singletap doubletap", (event) => {
           switch (event.type) {
             case "doubletap":
               this.prevPage();
@@ -184,7 +204,6 @@ class Bookshelf extends Widget {
             $('.swipe-wrap').css('width', ($('.swipe-wrap > div').length * $('#core_app_container').width()) + "px");
 
           });
-
       });
   }
 }

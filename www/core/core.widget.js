@@ -93,6 +93,13 @@ class Widget extends Addon {
 
 	loadView(view) {
 		return new Promise(resolve => {
+			if(this.mainView == view) {
+				Widget.changeView(this.mainView, false)
+							.then(() => {
+								window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => { resolve(true)  }), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { resolve(true) }));
+							});
+			}
+
 			if (this.views) {
 				for (let i = 0; i < this.views.length; i++) {
 					if (this.views[i].name === view) {
@@ -117,7 +124,7 @@ class Widget extends Addon {
 				.then(view => {
 					$('#core_app_container').fadeOut(250, () => {
 
-						/** neautralize aspect ratio if it's called for from utils */
+						/** neutralize aspect ratio if it's called for from utils */
 						if(resetProportions) {
 							$('#core_app_container').css('width', 'auto');
 							$('#core_app_container').css('height', '100%');

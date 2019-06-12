@@ -545,7 +545,7 @@ class Level_two extends Widget {
     initLetterCanvas(letter) {
 
         this.background = new Image();
-        this.background.src = this.skin("checheza.skin.official").addon.getAsset("background_blue_lines");
+        this.background.src = this.skin("checheza.skin.official").addon.getAsset("tracing-letters-bg-blue-lines");
 
         this.background.onload = () => {
 
@@ -593,7 +593,7 @@ class Level_two extends Widget {
     }
 
     procentToPxY(procent) {
-        return this.viewHeight * (parseFloat(procent)/100);
+        return this.viewHeight * (parseFloat(procent)/100) + (this.viewHeight * 0.035);
     }
 
     animateCheckpoints() {
