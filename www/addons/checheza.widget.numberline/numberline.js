@@ -532,7 +532,6 @@ class NumberlineLevel {
 
     // Improve this
     parseRange(range) {
-
         let rangeSplitted = range.split("-");
         let start, end, total;
 

@@ -15,7 +15,6 @@ drawLetter("A");
 pixels = ctx.getImageData(0,0, canvaslevelone.width, canvaslevelone.height);
 
 letterpixels=getPixelAmountData(255,0,0)
-console.log(letterpixels)
 
 //http://creativejs.com/2011/12/day-3-play-with-your-pixels/index.html
 function getPixelColourData(x,y) {
@@ -55,8 +54,6 @@ function drawLetter(letter) {
     ctx.fillStyle = "red";
     ctx.font = "400px 'alphabet";
     ctx.fillText(letter,centerX,centerY);
-    console.log(centerX,centerY);
-    console.log(ctx.measureText(letter));
 }
 
 function onmousemove(ev){
@@ -77,18 +74,9 @@ function onmouseup(ev){
     mousedown = false;
     //method stops the default action of an element from happening
    // var pixelamount = getPixelsAmountData(255,0,0)
-    //console.log(pixelamount)
-    console.log("letterpixel");
-    console.log(letterpixels)
     letterpixelsleft=getPixelAmountData(255,0,0);
     greenpixels=getPixelAmountData(0,255,0);
     bluepixels=getPixelAmountData(0,0,255);
-    console.log("pixelsleft");
-    console.log(letterpixelsleft);
-    console.log("green");
-    console.log(greenpixels);
-    console.log("blue");
-    console.log(bluepixels);
     ev.preventDefault() 
 }
 
@@ -97,11 +85,9 @@ function paint(x,y){
     //checking for the colour of the pixel
     var colour =  getPixelColourData(x,y);
     if (colour.a == 0) {
-        console.log("Outside letter");
         ctx.strokeStyle = 'rgba(0,0,0,0.0)';
     }
     else {
-        console.log("Inside letter");
         ctx.strokeStyle = colors;
         ctx.beginPath();
     if (lastX > 0 && lastY >0 && Math.abs(lastX-x) < 2 && Math.abs(lastY-y) < 2) {
@@ -111,7 +97,6 @@ function paint(x,y){
         ctx.stroke();
         ctx.closePath();
         ctx.strokeStyle = colour;
-        console.log(lastX, lastY, x, y);
         lastX = x;
         lastY = y;
 

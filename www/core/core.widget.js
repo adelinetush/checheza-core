@@ -35,6 +35,10 @@ class Widget extends Addon {
 	 * Only used by core to start a new widget.
 	 */
 	start() {
+		$('#core_container').css('opacity', '0');
+
+		$('#core_container').on('transitionend', () => { 
+			$('#core_container').off('transitionend');
 		// Delete any previous resources to free up memory
 		$("head").find('.resource').remove();
 
@@ -64,8 +68,10 @@ class Widget extends Addon {
 					this.preinit();
 				}
 
-				window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => { this.initialize(); }), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { this.initialize(); }));
+				window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => { this.initialize(); $('#core_container').css('opacity', '1'); }), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { this.initialize(); $('#core_container').css('opacity', '1'); }));
 			});
+		})
+
 	}
 
 	/**

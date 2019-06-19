@@ -78,7 +78,7 @@ class Bookshelf extends Widget {
             id: book,
             pages: 0,
             cover_picture: 'front.png',
-            path: computerFix + book + "/",
+            path: computerFix + book,
             language: "english"
           }
 
@@ -98,7 +98,7 @@ class Bookshelf extends Widget {
     this.audioTimeout = setTimeout(() => {
       let audio = $('audio');
       // Change source
-      $('#audio_source').attr('src', this.currentBook.path.replace("/www/", "") + "/page" + page + ".ogg");
+      $('#audio_source').attr('src', this.currentBook.path.replace("/www/", "") + "page" + page + ".ogg");
 
       audio[0].pause();
       audio[0].load();
@@ -199,7 +199,7 @@ class Bookshelf extends Widget {
           .then(bookFolder => {
             this.currentBook.pages = bookFolder.filter(resource => resource.indexOf(".png") == -1).length + 2;
             for (var i = 1; i < this.currentBook.pages; i++) {
-              $('.swipe-wrap').append('<div class="page" style="width:' + $('#core_app_container').width() + 'px;" data-page="' + i + '"><img src="' + this.currentBook.path.replace("/www/", "") + '/page' + i + '.png"></div>');
+              $('.swipe-wrap').append('<div class="page" style="width:' + $('#core_app_container').width() + 'px;" data-page="' + i + '"><img src="' + this.currentBook.path.replace("/www/", "") + 'page' + i + '.png"></div>');
             }
             $('.swipe-wrap').css('width', ($('.swipe-wrap > div').length * $('#core_app_container').width()) + "px");
 
