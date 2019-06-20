@@ -30,8 +30,6 @@ class Numberline extends Widget {
 class NumberlineLevelHandler {
 
     constructor(levelData) {
-
-        this.currentLevel = 0   ;
         this.level_indicator = document.getElementById("level_indicator");
 
         // Extract relevant information
@@ -39,8 +37,24 @@ class NumberlineLevelHandler {
             return new NumberlineLevel(level, this);
         });
 
-        this.changeLevel(this.currentLevel)
+        this.currentLevel = this.getSavedProgress();
+        this.changeLevel(this.currentLevel);
     }
+
+    getSavedProgress() {
+		var storage = window.localStorage;
+        var progress = storage.getItem('numberline_progress') === null ? 0 : storage.getItem('numberline_progress');
+        return parseInt(progress > this.levels.length ? this.levels.length : progress);
+	}
+
+	saveProgress() {
+		var storage = window.localStorage;
+		if (storage.getItem('numberline_progress') === null) {
+			storage.setItem('numberline_progress', 0);
+		} else {
+			storage.setItem('numberline_progress', this.currentLevel);
+		}
+	}
 
     nextLevel() { 
         this.currentLevel = this.currentLevel + 1 % this.levels.length;
@@ -53,6 +67,7 @@ class NumberlineLevelHandler {
     }
 
     changeLevel(index) {
+        this.saveProgress();
         this.levels[index].startLevel();
         this.setLevelIndicator(index);
     }
