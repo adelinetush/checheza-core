@@ -26,7 +26,7 @@ img { outline: none; }
   overflow:hidden;
   position:relative;
   margin:0 auto;
-
+  transition: 0.2s ease-in-out all;
 }
 
 #core_app_container {

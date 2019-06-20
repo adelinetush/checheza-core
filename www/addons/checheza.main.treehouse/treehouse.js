@@ -35,7 +35,6 @@ class Treehouse extends MainWidget {
 		$('audio')[0].pause();
 		$('audio')[0].load();
   
-		$('audio').oncanplaythrough = $('audio')[0].play();
 	
 		setTimeout(() => {
 			$('.widget').each((i, widget) => {

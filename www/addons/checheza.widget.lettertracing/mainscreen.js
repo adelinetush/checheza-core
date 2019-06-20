@@ -560,7 +560,7 @@ class Level_two extends Widget {
                 this.level_one_canvas_ctx.font = 'normal ' + scaledFontsize + 'px Lara';
                 var textWidth = this.level_one_canvas_ctx.measureText(letter).width;
                 this.level_one_canvas_ctx.textBaseline = 'middle';
-                this.level_one_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.25));
+                this.level_one_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.45));
 
                 this.levelOnePixelData = this.level_one_canvas_ctx.getImageData(0,0, this.level_one_canvas.width, this.level_one_canvas.height);
 
@@ -576,7 +576,7 @@ class Level_two extends Widget {
             var textWidth = this.letter_canvas_ctx.measureText(letter).width;
             
             this.letter_canvas_ctx.textBaseline = 'middle';
-            this.letter_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.25));
+            this.letter_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.45));
 
             if (this.currentLevel === 2 || this.currentLevel === 3) {
                 this.animateCheckpoints();
@@ -593,7 +593,7 @@ class Level_two extends Widget {
     }
 
     procentToPxY(procent) {
-        return this.viewHeight * (parseFloat(procent)/100) + (this.viewHeight * 0.035);
+        return this.viewHeight * (parseFloat(procent)/100);
     }
 
     animateCheckpoints() {
