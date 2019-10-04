@@ -370,7 +370,7 @@ class NumberlineLevel {
             this.problem = this.parseProblem(this.problem_data);
             this.startLevel();
         } else {
-            let soundPath = core.getActiveWidget().fullPath + '/assets/sounds/levelupYouDidIt.ogg';
+            let soundPath = 'www/addons/checheza.skin.official/assets/sounds/levelupYouDidIt.ogg';
             new Audio(soundPath).play();
             document.getElementById("level_indicator_bg").style.transform = 'scale('+30+','+30+')';
             setTimeout(() => {

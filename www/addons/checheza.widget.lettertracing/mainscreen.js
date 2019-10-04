@@ -40,7 +40,7 @@ class Level_two extends Widget {
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_4.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_5.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_6.ogg'));
-        this.letter_win_sound = new Audio(core.getActiveWidget().path+'/assets/audio/level_win.ogg');
+        this.letter_win_sound = new Audio('www/addons/checheza.skin.official/assets/sounds/levelupYouDidIt.ogg');
         this.scaleCounter = 0;
 
         this.color_in_audio = new Audio(core.getActiveWidget().path+'/assets/audio/color_in.ogg');
