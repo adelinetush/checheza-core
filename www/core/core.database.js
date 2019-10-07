@@ -5,51 +5,92 @@ class CoreDatabase {
         this.name = name;
         this.description = description;
         this.size = size;
+        this.db = undefined;
 
-        this.db = window.openDatabase(this.name, this.version, this.description, this.size);
+        let request = window.indexedDB.open(this.name, this.version);
+        request.onsuccess = (e) => { this.bindDatabase(e) };
+        request.onupgradeneeded = (e) => { this.upgrade(e) };
+    }
 
-        // Create if not exists
-        this.rawQuery('CREATE TABLE IF NOT EXISTS progress (widgetIdentifier unique, progressIdentifier)');
+    upgrade (event) {
+        let db = event.target.result;
+        db.createObjectStore("click", { autoIncrement: true });
+
+        let progress = db.createObjectStore("progress", { keyPath: "widget" });
+        progress.createIndex("widget", "widget", { unique: true });
+    }
+
+    bindDatabase (event) {
+        this.db = event.target.result;
+    }
+
+    error (event) {
+        console.error("Could not initialize ChechezaDB");
+    }
+
+    clearClicks() {
+        return new Promise(resolve => {
+            let transaction = this.db.transaction(["click"], "readwrite");
+
+            transaction.oncomplete = function(event) {
+                resolve(event);
+            };
+
+            let objectStore = transaction.objectStore("click");
+            objectStore.clear();
+        });
+    }
+
+    storeClick(clickObject) {
+        return new Promise(resolve => {
+            let transaction = this.db.transaction(["click"], "readwrite");
+
+            transaction.oncomplete = function(event) {
+                resolve(event);
+            };
+
+            let objectStore = transaction.objectStore("click");
+            objectStore.add(clickObject);
+        });
+    }
+
+    getClicks() {
+        return new Promise((resolve, reject) => {
+            let transaction = this.db.transaction(["click"], "readwrite");
+            let objectStore = transaction.objectStore("click");
+            let data = undefined;
+
+            transaction.oncomplete = function(event) {
+                resolve(data.result);
+            };
+
+            data = objectStore.getAll();
+        })
     }
 
     getProgress(widgetIdentifier) {
         return new Promise((resolve, reject) => {
-            this.db.transaction(tx => {
-                tx.executeSql('SELECT progressIdentifier FROM progress WHERE widgetIdentifier = ?', [ widgetIdentifier ], (tx, result) => {
-                    if(result.rows.length == 0) {
-                        resolve(false);
-                    } else {
-                        resolve(result.rows[0].progressIdentifier);
-                    }    
-                });
-            });
+            let transaction = this.db.transaction(["progress"], "readwrite");
+
+            transaction.oncomplete = function(event) {
+                resolve(event);s
+            };
+
+            let objectStore = transaction.objectStore("progress");
+            objectStore.get(widgetIdentifier);
         });
     }
 
     saveProgress(widgetIdentifier, progressIdentifier) {
         return new Promise(resolve => {
-            this.getProgress(widgetIdentifier)
-            .then(result => {
-                if(result) { 
-                    this.db.transaction(tx => {
-                        tx.executeSql('UPDATE progress SET progressIdentifier=? WHERE widgetIdentifier=?', [progressIdentifier, widgetIdentifier], (tx, result) => {
-                            resolve(result);
-                        });
-                    });
-                } else {
-                    this.db.transaction(tx => {
-                        tx.executeSql('INSERT INTO progress (progressIdentifier, widgetIdentifier) VALUES(?, ?)', [progressIdentifier, widgetIdentifier], (tx, result) => {
-                            resolve(result);
-                        });
-                    });
-                }
-            });
-        });
-    }
+            let transaction = this.db.transaction(["progress"], "readwrite");
 
-    rawQuery(query) {
-        this.db.transaction(tx => {
-            tx.executeSql(query);
+            transaction.oncomplete = function(event) {
+                resolve(event);
+            };
+
+            let objectStore = transaction.objectStore("progress");
+            objectStore.put({ widget: widgetIdentifier, progress: progressIdentifier });
         });
     }
 }
