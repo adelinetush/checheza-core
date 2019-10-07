@@ -73,6 +73,8 @@ class CoreUtils {
         var backgroundElem = $("#core_background_container");
 
         switch (weather) {
+            case 'clear':
+                backgroundElem.prepend('<div class="sky"></div>')
             case 'partly-cloudy':
                 backgroundElem.prepend('<div class="sky"><div class="cloud_1 animate very-slow move-left infinite"></div><div class="cloud_2 animate very-slow move-right infinite"></div></div>');
                 break;
