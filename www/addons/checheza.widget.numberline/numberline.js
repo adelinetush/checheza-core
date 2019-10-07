@@ -108,8 +108,12 @@ class NumberlineSlider {
         this.slider_pad.setAttribute("id", "pad");
         this.slider.appendChild(this.slider_pad);
 
+        this.slider_pad_selector = document.createElement("div");
+        this.slider_pad_selector.setAttribute("id", "pad_selector");
+        document.getElementById("core_app_container").appendChild(this.slider_pad_selector);
+
         // Initialize touch event object on slider
-        this.sliderTouchEvent = new Hammer.Manager(this.slider_pad);
+        this.sliderTouchEvent = new Hammer.Manager(this.slider_pad_selector);
 
         this.sliderTouchEvent.add(new Hammer.Press({ event: 'press', time: 100, threshold: 1000, pointer: 1 }));
         this.sliderTouchEvent.add(new Hammer.Tap());
@@ -128,6 +132,7 @@ class NumberlineSlider {
     deinitializeSlider() {
         delete this.sliderTouchevent;
         this.slider.removeChild(this.slider_pad)
+        document.getElementById("core_app_container").removeChild(this.slider_pad_selector)
     }
 
     tapPad() {
@@ -160,9 +165,9 @@ class NumberlineSlider {
     handlePanEvent(event) {
         // Get the width of a block
         let blockWidth = (this.block_holder.clientWidth - (0.005 * this.block_holder.clientWidth)) / this.range.total;
-
+        let rect = document.getElementById("core_app_container").getBoundingClientRect();
         // Get the position of the slider on screen
-        let numberlinePositionX = (this.width * 0.1) + parseFloat(window.getComputedStyle(this.numberlineCanvas).left);
+        let numberlinePositionX =  parseFloat(rect.left) + parseFloat(window.getComputedStyle(this.block_holder).left);
         // Calculate the number of blocks that is to be placed on the slider
         let n = parseInt((event.center.x - numberlinePositionX) / blockWidth);
         if (n < 0)
@@ -192,6 +197,11 @@ class NumberlineSlider {
  
         // set red pad position
         this.slider_pad.style.marginLeft = padPositionX + "px"
+        let slider_pad_rect = this.slider_pad.getBoundingClientRect();
+        this.slider_pad_selector.style.left = slider_pad_rect.x + "px";
+        this.slider_pad_selector.style.top = slider_pad_rect.y + "px";
+        this.slider_pad_selector.style.width = window.getComputedStyle(this.slider_pad).width;
+        this.slider_pad_selector.style.height = window.getComputedStyle(this.slider_pad).height;
     }
 
     createNumberline() {
