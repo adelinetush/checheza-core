@@ -10,6 +10,9 @@ class Memory extends Widget {
         this.game = new Phaser.Game($(window).width(), $(window).height(), Phaser.AUTO, 'game', { create: this.create });
         // Add exit button
 		core.utils.addExitButton ();
+        // Add voice instructions
+        let pathToSound = core.getActiveWidget().fullPath + '/assets/sounds/Find\ two\ with\ the\ same\ picture.ogg';
+        new Audio(pathToSound).play();
     }
 
     create() {
@@ -55,12 +58,14 @@ class Level {
     preload() {
         this.game.load.spritesheet("tiles", this.skin.getAsset("memory_cards_lvl"+this.game.state.current), this.tileSize, this.tileSize);
         this.game.load.image("exit", this.skin.getAsset("exit"));
-        this.game.load.audio("pair", this.path + "/assets/sounds/good.wav");
+        this.game.load.audio("pair", this.path + "/assets/sounds/good.ogg");
+        this.game.load.audio("winSound", this.path + "/assets/sounds/excellent.ogg")
         this.game.load.image("background", this.skin.getAsset("memory_background"));
     }
 
     create() {
         this.sound = this.game.add.audio("pair");
+        this.winSound = this.game.add.audio("winSound");
         this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.pageAlignVertically = true;
         this.game.scale.pageAlignHorizontally = true;
@@ -118,7 +123,7 @@ class Level {
     }
 
     checkTiles() {
-        if (this.selectedArray[0].value == this.selectedArray[1].value) {
+        if (this.selectedArray[0].value == this.selectedArray[1].value) { //match
             this.sound.play();
             this.selectedArray[0].destroy();
             this.selectedArray[1].destroy();
@@ -130,11 +135,12 @@ class Level {
                 if(this.nextLevel == "1") {
                     core.startWidget("checheza.main.treehouse");
                 } else {
+                    this.winSound.play();
                     this.game.state.start(this.nextLevel);
                 }
             }
         }
-        else {
+        else {  // No match                                        
             this.selectedArray[0].frame = this.frame;
             this.selectedArray[1].frame = this.frame;
         }
