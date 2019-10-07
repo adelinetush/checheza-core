@@ -78,7 +78,7 @@ class Bookshelf extends Widget {
             id: book,
             pages: 0,
             cover_picture: 'front.png',
-            path: computerFix + book,
+            path: computerFix + book + "/",
             language: "english"
           }
 
