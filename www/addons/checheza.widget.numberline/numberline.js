@@ -126,6 +126,7 @@ class NumberlineSlider {
         this.sliderTouchEvent.on('tap', (e) => { this.tapPad(); });
         this.sliderTouchEvent.on('pan', (e) => { this.enterPad(); this.handlePanEvent(e); });
         this.sliderTouchEvent.on('panend', (e) => { this.releasePad(e); });
+
         this.setBlocks(0);
     }
 
@@ -197,11 +198,17 @@ class NumberlineSlider {
  
         // set red pad position
         this.slider_pad.style.marginLeft = padPositionX + "px"
-        let slider_pad_rect = this.slider_pad.getBoundingClientRect();
-        this.slider_pad_selector.style.left = slider_pad_rect.x + "px";
-        this.slider_pad_selector.style.top = slider_pad_rect.y + "px";
-        this.slider_pad_selector.style.width = window.getComputedStyle(this.slider_pad).width;
-        this.slider_pad_selector.style.height = window.getComputedStyle(this.slider_pad).height;
+        this.padSelectorAtPad();
+    }
+
+    padSelectorAtPad() {
+        if(document.getElementById("pad")) {
+            let slider_pad_rect = document.getElementById("pad").getBoundingClientRect();
+            document.getElementById("pad_selector").style.left = slider_pad_rect.left + "px";
+            document.getElementById("pad_selector").style.top = slider_pad_rect.top + "px";
+            document.getElementById("pad_selector").style.width = window.getComputedStyle(document.getElementById("pad")).width;
+            document.getElementById("pad_selector").style.height = window.getComputedStyle(document.getElementById("pad")).height;
+        }
     }
 
     createNumberline() {
