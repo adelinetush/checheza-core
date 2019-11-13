@@ -182,7 +182,7 @@ class NumberlineSlider {
 
     setBlocks(numberOfBlocks) {
         if (numberOfBlocks) {
-            new Audio(core.getActiveWidget().fullPath + '/assets/sounds/swipe.ogg').play(); // no sound when starting
+            new Audio(core.getActiveWidget().path + '/assets/sounds/swipe.ogg').play(); // no sound when starting
         }   
         // restrict numberOfBlocks to current range
         this.numberOfBlocks = numberOfBlocks < this.range.total ? numberOfBlocks : this.range.total;
@@ -387,8 +387,7 @@ class NumberlineLevel {
             this.problem = this.parseProblem(this.problem_data);
             this.startLevel();
         } else {
-            let soundPath = 'www/addons/checheza.skin.official/assets/sounds/levelupYouDidIt.ogg';
-            new Audio(soundPath).play();
+            new Audio(core.getActiveWidget().path+"/assets/sounds/levelupYouDidIt.ogg").play();
             document.getElementById("level_indicator_bg").style.transform = 'scale('+30+','+30+')';
             setTimeout(() => {
                 this.levelhandler.nextLevel();
@@ -411,7 +410,7 @@ class NumberlineLevel {
                 document.getElementsByClassName("operand")[0].remove();
                 this.current_problem.innerHTML += '<h1 class="result bg">'+this.problem.result+'</h1>';
             }
-            new Audio(core.getActiveWidget().fullPath + '/assets/sounds/good.ogg').play();
+            new Audio(core.getActiveWidget().path + '/assets/sounds/good.ogg').play();
 
             setTimeout(() => {
                 this.nextProblem();
@@ -435,7 +434,7 @@ class NumberlineLevel {
                     document.getElementsByClassName("operand")[0].remove();
                     this.current_problem.innerHTML += '<h1 class="result bg">'+this.problem.result+'</h1>';
                 }
-                new Audio(core.getActiveWidget().fullPath + '/assets/sounds/good.ogg').play(); // REPEATED! Centralize?
+                new Audio(core.getActiveWidget().path + '/assets/sounds/good.ogg').play(); // REPEATED! Centralize?
 
                 setTimeout(() => {
                     this.lives = 3;
@@ -460,7 +459,7 @@ class NumberlineLevel {
             this.slider.setBlocks(0);
 
             this.lives--;
-            new Audio(core.getActiveWidget().fullPath + '/assets/sounds/bad.ogg').play();
+            new Audio(core.getActiveWidget().path + '/assets/sounds/bad.ogg').play();
 
             document.getElementById('core_container').style.animation = 'shake 0.5s';
             setTimeout(() => {

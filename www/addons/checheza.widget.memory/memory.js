@@ -11,8 +11,7 @@ class Memory extends Widget {
         // Add exit button
 		core.utils.addExitButton ();
         // Add voice instructions
-        let pathToSound = core.getActiveWidget().fullPath + '/assets/sounds/Find\ two\ with\ the\ same\ picture.ogg';
-        new Audio(pathToSound).play();
+        new Audio(core.getActiveWidget().path + '/assets/sounds/instruction.ogg').play();
     }
 
     create() {

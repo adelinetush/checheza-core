@@ -32,7 +32,7 @@ class Treehouse extends MainWidget {
 
 		$('#as').attr('src', this.path + "/loop.ogg");
 		$('audio')[0].volume = 0.20;
-		$('audio')[0].pause();
+		$('audio')[0].play();
 		$('audio')[0].load();
   
 	

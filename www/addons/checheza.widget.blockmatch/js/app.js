@@ -69,7 +69,7 @@ class Blockmatch extends Widget {
 		},100);
 
 		core.utils.addExitButton();
-   		new Audio(core.getActiveWidget().fullPath + '/audio/stack_the_blocks.ogg').play();
+   		new Audio(core.getActiveWidget().path + '/audio/stack_the_blocks.ogg').play();
 
 	}
 
@@ -106,7 +106,7 @@ class BlockmatchClass {
 		this.sounds = [];
 		this.sounds.drop_bar = new Audio(core.getActiveWidget().path+'/audio/releasing_log.ogg');	
 		this.sounds.wrong_bar = new Audio(core.getActiveWidget().path+'/audio/wrong_bar.ogg');
-		this.sounds.wrong_encouragement = new Audio(core.getActiveWidget().fullPath + '/audio/oops_try_again.ogg');
+		this.sounds.wrong_encouragement = new Audio(core.getActiveWidget().path + '/audio/oops_try_again.ogg');
 		this.sounds.correct_bar = new Audio(core.getActiveWidget().path+'/audio/correct_bar.ogg');
 		this.sounds.round_win = new Audio(core.getActiveWidget().path+'/audio/thats_great_wow.ogg');
 		this.sounds.level_win = new Audio(core.getActiveWidget().path+'/audio/level_win.ogg');
@@ -403,7 +403,7 @@ class BlockmatchClass {
 				that.roundFail();
 				that.resetGame();
 				that.runLevel();
-				new Audio(core.getActiveWidget().fullPath + '/audio/oh_no.ogg').play();
+				new Audio(core.getActiveWidget().path + '/audio/oh_no.ogg').play();
 			}
 			that.timer++;
 		}, 1000);

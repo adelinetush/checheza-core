@@ -40,7 +40,7 @@ class Level_two extends Widget {
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_4.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_5.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_6.ogg'));
-        this.letter_win_sound = new Audio('www/addons/checheza.skin.official/assets/sounds/levelupYouDidIt.ogg');
+        this.letter_win_sound = new Audio(core.getActiveWidget().path+'/../checheza.skin.official/assets/sounds/levelupYouDidIt.ogg');
         this.scaleCounter = 0;
 
         this.color_in_audio = new Audio(core.getActiveWidget().path+'/assets/audio/color_in.ogg');
@@ -576,7 +576,7 @@ class Level_two extends Widget {
             var textWidth = this.letter_canvas_ctx.measureText(letter).width;
             
             this.letter_canvas_ctx.textBaseline = 'middle';
-            this.letter_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.45));
+            this.letter_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.25));
 
             if (this.currentLevel === 2 || this.currentLevel === 3) {
                 this.animateCheckpoints();

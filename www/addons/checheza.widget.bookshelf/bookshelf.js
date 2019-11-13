@@ -90,7 +90,7 @@ class Bookshelf extends Widget {
       });
 
       let pathToSound = core.getActiveWidget().fullPath + '/assets/sounds/chooseAbookToRead.ogg';
-        new Audio(pathToSound).play();
+      new Audio(pathToSound.replace("/www", "/android_asset/www")).play();
   }
 
   playAudio(page) {

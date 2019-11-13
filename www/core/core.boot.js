@@ -42,8 +42,8 @@ class Bootloader {
         var specs = [];
 
         for (let addonFolder of addonFolders) {
-            if(addonFolder !== "www/addons/coreConfiguration.json") {
-            specs.push(new Promise((resolve, reject) => {
+            if(addonFolder.includes("coreConfiguration.json") === false) {
+                specs.push(new Promise((resolve, reject) => {
                 core.filesystem.readFolder(addonFolder)
                     .then((addonFiles) => {
                         if(addonFiles.length > 0) {
