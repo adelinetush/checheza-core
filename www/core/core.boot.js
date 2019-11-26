@@ -32,7 +32,8 @@ class Bootloader {
             return core.getAllAddonsOfType("Main")
         }).then(mainAddons => {
             core.backend.initialize();
-            core.analytics.initialize();
+            //core.analytics.initialize();
+            
             mainAddons[0].start();
         }).catch((error) => { throw(error) });
     }
@@ -103,7 +104,13 @@ class Bootloader {
                                     spec.ResourceMap = url + spec.ResourceMap;
 
                                 if (spec.Views)
-                                    $.each(spec.Views, (i, view) => { spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file } });
+                                    $.each(spec.Views, (i, view) => { 
+                                        if(spec.Views[i].controller) {
+                                            spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file, "controller": url + spec.Views[i].controller } 
+                                        } else {
+                                            spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file } 
+                                        }
+                                    });
 
                                 core.addSpecification(spec); // Add loaded specification to core
 

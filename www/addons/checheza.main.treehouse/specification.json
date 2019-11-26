@@ -9,5 +9,10 @@
 	"MainClass": "Treehouse",
 	"MainClassFile": "treehouse.js",
 	"MainView": "treehouse.html",
+	"Views": [ 
+		{ "name": "Category", "file": "views/category.html", "controller": "controllers/category.js" },
+		{ "name": "Modules", "file": "views/modules.html", "controller": "controllers/modules.js"  },
+		{ "name": "Module", "file": "views/module.html", "controller": "controllers/module.js"  }
+	],
 	"Skins": [ { "checheza.skin.official": [ "general", "treehouse"] } ]
 }

@@ -20,8 +20,8 @@ class Treehouse extends MainWidget {
 		$('#tree').addClass('climb-fast');
 
 		// Add click listeners on the buttons in the treehouse
-		$('.treehouse.widget.btn').click(function(e) {
-			core.startWidget(e.target.id.split("_").join("."));
+		$('.treehouse.widget.btn').click((e) => {
+			this.loadView("Category", e.target.id) // Open view "Categories" with parameter e.target.id
 		});
 
 		// Allow zooming

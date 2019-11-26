@@ -106,6 +106,27 @@ class CoreFilesystem {
         });
     }
 
+    writeFile(path) {
+        return new Promise((resolve, reject) => {
+            if (this.browser) {
+                // AJAX request to the external node module that gives file access.
+                $.ajax({
+                    url: browserdebug + "/writeFile",
+                    method: "POST",
+                    data: { filePath: file }
+                }).done((data) => {
+                    // Return file data
+                    resolve(data);
+                }).fail((err) => {
+                    // Return error message
+                    reject(err);
+                })
+            } else {
+
+            }
+        })
+    }
+
 
     /**
      * @param {string} file - the path and filename for the file you want to read.
