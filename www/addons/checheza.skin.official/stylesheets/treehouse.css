@@ -58,7 +58,7 @@
     opacity:0;
   }
   
-  #checheza_widget_bookshelf {
+  #reading {
     width: 6%;
     height: 13%;
     background-image: url(../assets/treehouse/icon-bookshelf.png);
@@ -70,7 +70,7 @@
     z-index: 5;
   }
   
-  #checheza_widget_memory {
+  #braintraining {
     background-image: url(../assets/treehouse/icon-memory.png);
     width: 8%;
     height: 10%;
@@ -83,7 +83,7 @@
     opacity: 0;
   }
 
-  #checheza_widget_numberline {
+  #math {
     width: 7%;
     height: 10%;
     background-image: url(../assets/treehouse/icon-numberline.png);
@@ -95,7 +95,7 @@
     z-index: 5;
 }
 
-  #checheza_widget_lettertracing {
+  #writing {
     will-change: transform;
     transform: translateZ(0);
     background-image: url(../assets/treehouse/icon-tracingletters.png);
@@ -105,18 +105,5 @@
     position: inherit;
     top: -2%;
     left: 68%;
-    z-index: 5;
-  }
-
-  #checheza_widget_blockmatch {
-    will-change: transform;
-    transform: translateZ(0);
-    background-image: url(../assets/treehouse/icon-blockmatch.png);
-    width: 8%;
-    height: 4%;
-    background-size: 100% 100%;
-    position: inherit;
-    top: 7%;
-    left: 27%;
     z-index: 5;
   }

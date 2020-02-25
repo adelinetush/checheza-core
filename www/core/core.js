@@ -22,6 +22,12 @@ class Core {
 		// Initialize filesystem access
 		this.filesystem = new CoreFilesystem();
 
+		// Initialize core backend
+		this.backend = new CoreBackend();
+
+		// Initialize core analytics
+		this.analytics = new CoreAnalytics();
+		
 		// Initialize database
 		this.database = new CoreDatabase("1", "chechezaCoreDb", "Database for Checheza core", 2*1024*1024);
 		
@@ -29,6 +35,18 @@ class Core {
 		this.skins = [];
 
 		this.countdown = 0;
+	}
+
+	loadConfiguration() {
+		return new Promise(resolve => {
+			core.filesystem.readFile("/www/addons/coreConfiguration.json")
+			.then(conf => {
+				this.configuration = JSON.parse(conf);
+				resolve();
+			}).catch(err => {
+				throw err;
+			});
+		});
 	}
 
 	initializeResizeListener() {

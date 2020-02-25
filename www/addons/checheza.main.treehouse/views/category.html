@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="../../../static/module_css/categories.css">
+<div id="widgetBackground" style="background-color: rgb(54, 37, 16);">
+    <!-- List of modules -->
+    <div class="play-now">
+        <p style="margin: 0em;"> Play now </p> 
+    </div>
+    <div class="sections">
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-1-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-2-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-3-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-4-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="available_module">
+                    <img class="image_class" src="../../../static/images/icons/icon-5-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-6-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-7-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="">
+                    <img class="image_class" src="../../../static/images/icons/icon-8-400.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="section-item">
+            <div class="item">
+                <a href="#" id="getNewModules">
+                    <img class="image_class" src="../../../static/images/icons/add-more-400.jpg">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <p style="font-size: 60px; padding-left: 15%; padding-top: 0px; margin: 0em;">Delete this module?</p>
+          <div class="module_details">
+              <div class="image-details">
+                <img class="modal_image" src="../../../static/images/icons/icon-5-400.jpg">
+              </div>
+              <div class="text-details">
+                <button class="button-primary">Primary 1</button>
+                <p style="font-size: 30px; margin-top: 0em;">Actions are louder <br/> than words!?</p>
+            </div>
+          </div>
+          <div class="buttons">
+            <button class="button-delete"> <i class="fa fa-trash"></i> Delete</button>
+            <button class="button-keep"> <i class="fa fa-check"></i> Keep</button>
+          </div>
+          
+        </div>
+      
+      </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var modal = document.getElementById("myModal");
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        var longpress = false;
+
+        $("#available_module").on('click', function () {
+            (longpress) ? modal.style.display = "block" : alert("Short Press");
+        });
+
+        var startTime, endTime;
+        $("#available_module").on('mousedown', function () {
+            startTime = new Date().getTime();
+        });
+
+        $("#available_module").on('mouseup', function () {
+            endTime = new Date().getTime();
+            longpress = (endTime - startTime < 500) ? false : true;
+        });
+    });
+</script>

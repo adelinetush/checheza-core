@@ -6,12 +6,12 @@ const path = require('path');
 parseConfigJson = () => {
 	fs.readFile('./package.json', 'utf8', (error, config) => {
 		config = JSON.parse(config);
-		port = config.scripts.start.split(" ")[5].split("=")[1];
+		//port = config.scripts.start.split(" ")[5].split("=")[1];
 
 		var script = '\
 		var getUrl = window.location; \
 		var baseUrl = getUrl .protocol + "//" + getUrl.hostname; \
-		var browserdebug = baseUrl+":'+port+'";';
+		var browserdebug = baseUrl+":'+27000+'";';
 
 		fs.writeFile('./www/static/browserDbgAddr.js', script, (err) => {
 			if(err) {

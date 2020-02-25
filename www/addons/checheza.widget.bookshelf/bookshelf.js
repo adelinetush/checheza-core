@@ -78,7 +78,7 @@ class Bookshelf extends Widget {
             id: book,
             pages: 0,
             cover_picture: 'front.png',
-            path: computerFix + book,
+            path: computerFix + book + "/",
             language: "english"
           }
 
@@ -88,6 +88,9 @@ class Bookshelf extends Widget {
           $('#swipe').slick('slickAdd', '<div><div onclick=core.getActiveWidget().openBook("' + bookObject.id + '") class="book_preview fadeIn animated" id="' + bookObject.id + '"><img class="cover_thumb" src="' + bookObject.path.replace("/www/", "") + bookObject.cover_picture + '" alt=""/></div></div>');
         }
       });
+
+      let pathToSound = core.getActiveWidget().fullPath + '/assets/sounds/chooseAbookToRead.ogg';
+      new Audio(pathToSound.replace("/www", "/android_asset/www")).play();
   }
 
   playAudio(page) {

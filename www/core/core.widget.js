@@ -3,6 +3,8 @@ class Widget extends Addon {
 	constructor(specification) {
 		super(specification);
 		this.skins = [];
+		this.controllers = [];
+
 		if (specification.Skins) {
 			specification.Skins.map(skin => {
 				this.skins[Object.keys(skin)[0]] = { "addon": core.getAddon(Object.keys(skin)), "themes": skin[Object.keys(skin)] };
@@ -41,7 +43,6 @@ class Widget extends Addon {
 			$('#core_container').off('transitionend');
 		// Delete any previous resources to free up memory
 		$("head").find('.resource').remove();
-
 		if (this.skins) {
 			for (let skin in this.skins) {
 				this.skins[skin].themes.forEach(theme => {
@@ -51,7 +52,7 @@ class Widget extends Addon {
 		}
 
 		core.setActiveWidget(this);
-
+		
 		// get head from view and append to active head
 		Widget.changeView(this.mainView, true)
 			.then(() => {
@@ -97,11 +98,12 @@ class Widget extends Addon {
 			})
 	}
 
-	loadView(view) {
+	loadView(view, payload) {
 		return new Promise(resolve => {
 			if(this.mainView == view) {
 				Widget.changeView(this.mainView, false)
 							.then(() => {
+								
 								window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => { resolve(true)  }), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { resolve(true) }));
 							});
 			}
@@ -109,10 +111,30 @@ class Widget extends Addon {
 			if (this.views) {
 				for (let i = 0; i < this.views.length; i++) {
 					if (this.views[i].name === view) {
-						// get head from view and append to active head
 						Widget.changeView(this.views[i].file, false)
 							.then(() => {
-								window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => { resolve(true)  }), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { resolve(true) }));
+								if( this.views[i].controller ) { 
+									$('#core_app_container').append('<script class="resource" src="' + this.views[i].controller + '" rel="javascript" type="text/javascript" /></script>');
+								}
+								window.addEventListener ? window.addEventListener("load", $('#core_app_container').fadeIn(1000, () => {
+									if( this.views[i].controller ) {
+										const _controller = Function("param", "return new " + this.views[i].name + "(param)"); // Add function that returns a new obj call
+										let controller = _controller(payload);
+										this.controllers.push(controller);
+										resolve();
+									} else {
+										resolve();
+									}
+								}), false) : window.attachEvent && window.attachEvent("onload", $('#core_app_container').fadeIn(1000, () => { 
+									if( this.views[i].controller ) {
+										const _controller = Function("param", "return new " + this.views[i].name + "(param)"); // Add function that returns a new obj call
+										let controller = _controller(payload);
+										this.controllers.push(controller);
+										resolve();
+									} else {
+										resolve();
+									}
+								}));
 							});
 					}
 				}

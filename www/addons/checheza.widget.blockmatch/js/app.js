@@ -69,6 +69,8 @@ class Blockmatch extends Widget {
 		},100);
 
 		core.utils.addExitButton();
+   		new Audio(core.getActiveWidget().path + '/audio/stack_the_blocks.ogg').play();
+
 	}
 
 	preinit() {
@@ -89,11 +91,11 @@ class BlockmatchClass {
 
 		this.backgroundLoop = new SeamlessLoop();
 		this.backgroundLoop.addUri(core.getActiveWidget().path+'/audio/background.ogg', 10000, "background");
-
+/*
 		this.backgroundLoop.callback(() => {
 			this.startBackground();
 		});
-
+*/
 		this.colorSets = [
 			{ left: '#E9731C', right: '#1344D8' },
 			{ left: '#18CD1A', right: '#E86BFF' },
@@ -102,11 +104,13 @@ class BlockmatchClass {
 		];
 
 		this.sounds = [];
-		this.sounds.drop_bar = new Audio(core.getActiveWidget().path+'/audio/drop_bar.ogg');
+		this.sounds.drop_bar = new Audio(core.getActiveWidget().path+'/audio/releasing_log.ogg');	
 		this.sounds.wrong_bar = new Audio(core.getActiveWidget().path+'/audio/wrong_bar.ogg');
+		this.sounds.wrong_encouragement = new Audio(core.getActiveWidget().path + '/audio/oops_try_again.ogg');
 		this.sounds.correct_bar = new Audio(core.getActiveWidget().path+'/audio/correct_bar.ogg');
-		this.sounds.round_win = new Audio(core.getActiveWidget().path+'/audio/round_win.ogg');
+		this.sounds.round_win = new Audio(core.getActiveWidget().path+'/audio/thats_great_wow.ogg');
 		this.sounds.level_win = new Audio(core.getActiveWidget().path+'/audio/level_win.ogg');
+
 
 		this.sounds.drop_bar.volume = 0.6;
 		this.sounds.correct_bar.volume = 0.6;
@@ -399,6 +403,7 @@ class BlockmatchClass {
 				that.roundFail();
 				that.resetGame();
 				that.runLevel();
+				new Audio(core.getActiveWidget().path + '/audio/oh_no.ogg').play();
 			}
 			that.timer++;
 		}, 1000);
@@ -617,6 +622,8 @@ class BlockmatchClass {
 		var that = this;
 
 		this.playSound(this.sounds.wrong_bar);
+		this.playSound(this.sounds.wrong_encouragement);
+
 
 		dropped_bar.effect("shake");
 

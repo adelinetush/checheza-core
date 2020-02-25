@@ -40,7 +40,7 @@ class Level_two extends Widget {
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_4.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_5.ogg'));
         this.pentaScale.push(new Audio(core.getActiveWidget().path+'/assets/audio/penta_6.ogg'));
-        this.letter_win_sound = new Audio(core.getActiveWidget().path+'/assets/audio/level_win.ogg');
+        this.letter_win_sound = new Audio(core.getActiveWidget().path+'/../checheza.skin.official/assets/sounds/levelupYouDidIt.ogg');
         this.scaleCounter = 0;
 
         this.color_in_audio = new Audio(core.getActiveWidget().path+'/assets/audio/color_in.ogg');
@@ -560,7 +560,7 @@ class Level_two extends Widget {
                 this.level_one_canvas_ctx.font = 'normal ' + scaledFontsize + 'px Lara';
                 var textWidth = this.level_one_canvas_ctx.measureText(letter).width;
                 this.level_one_canvas_ctx.textBaseline = 'middle';
-                this.level_one_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.25));
+                this.level_one_canvas_ctx.fillText(letter , (this.letter_canvas.width/2) - (textWidth / 2), (this.letter_canvas.height/2.45));
 
                 this.levelOnePixelData = this.level_one_canvas_ctx.getImageData(0,0, this.level_one_canvas.width, this.level_one_canvas.height);
 

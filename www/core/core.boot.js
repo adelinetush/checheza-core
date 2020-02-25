@@ -11,33 +11,31 @@ class Bootloader {
         core.initializeResizeListener();
 
         $.getScript("static/browserDbgAddr.js")
-        .done( () => { 
-            core.filesystem.initialize() // initialize filesystem
-            .then( () => { 
-                core.filesystem.readFolder("www/addons") // Locate addonfolders
-                    .then(addonFolders => {
-                        return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
-                    }).then(specificationUrls => {
-                        return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
-                    }).then(specifications => {
-                        if (Bootloader.isAllDependenciesMet()) {
-                            return core.loadAllAddons();
-                        } else {
-                            throw("All dependencies not met.");
-                        }
-                    }).then(() => {
-                        $('.status').append('<p class="animated fadeInUp">All addons loaded... Starting</p>');                        
-                        core.getAllAddonsOfType("Main")
-                        .then(mainAddons => {
-                            mainAddons[0].start();
-                        });
-                    }).catch((error) => {
-                        throw ("Could not read addonfolders properly! " + error)
-                    });
-            }).catch(error => {
-                throw("Could not initialize filesystem. " + error);
-            })
-        });
+        .done(() => { 
+            return core.filesystem.initialize() // initialize filesystem
+        }).then(() => {
+            return core.loadConfiguration()
+        }).then(() => {
+            return core.filesystem.readFolder("www/addons") // Locate addonfolders
+        }).then(addonFolders => {
+            return Bootloader.getSpecificationFrom(addonFolders); // Locate specifcations
+        }).then(specificationUrls => {
+            return Bootloader.parseSpecifications(specificationUrls); // Parse specifications
+        }).then(specifications => {
+            if (Bootloader.isAllDependenciesMet()) {
+                return core.loadAllAddons();
+            } else {
+                throw("All dependencies not met.");
+            }
+        }).then(() => {
+            $('.status').append('<p class="animated fadeInUp">All addons loaded... Starting</p>');                        
+            return core.getAllAddonsOfType("Main")
+        }).then(mainAddons => {
+            core.backend.initialize();
+            //core.analytics.initialize();
+            
+            mainAddons[0].start();
+        }).catch((error) => { throw(error) });
     }
 
     static getSpecificationFrom(addonFolders) {
@@ -45,7 +43,8 @@ class Bootloader {
         var specs = [];
 
         for (let addonFolder of addonFolders) {
-            specs.push(new Promise((resolve, reject) => {
+            if(addonFolder.includes("coreConfiguration.json") === false) {
+                specs.push(new Promise((resolve, reject) => {
                 core.filesystem.readFolder(addonFolder)
                     .then((addonFiles) => {
                         if(addonFiles.length > 0) {
@@ -70,13 +69,13 @@ class Bootloader {
                         reject("Could not read addonfolders properly, check your " + addonFolder + "folder for anomalies!");
                     });
             }));
+            }
         }
 
         return Promise.all(specs)
             .then(specifications => {
                 return specifications;
             });
-            
     }
 
 
@@ -105,7 +104,13 @@ class Bootloader {
                                     spec.ResourceMap = url + spec.ResourceMap;
 
                                 if (spec.Views)
-                                    $.each(spec.Views, (i, view) => { spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file } });
+                                    $.each(spec.Views, (i, view) => { 
+                                        if(spec.Views[i].controller) {
+                                            spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file, "controller": url + spec.Views[i].controller } 
+                                        } else {
+                                            spec.Views[i] = { "name": spec.Views[i].name, "file": url + spec.Views[i].file } 
+                                        }
+                                    });
 
                                 core.addSpecification(spec); // Add loaded specification to core
 
@@ -185,6 +190,7 @@ class Bootloader {
                 Bootloader.init();
                 return true;
             } catch (err) {
+                console.error(err);
                 setTimeout(() => {
                     Bootloader.tryInit(i + 1);
                 }, 5000);
