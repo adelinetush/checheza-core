@@ -9,12 +9,7 @@ class Modules {
         core.utils.addExitButton();
         
         // test link that opens module view
-        //$('#exampleModule').click(() => {
-        //    this.openModuleView("exampleModule")
-        //})
-
         this.getModulesInCategory(category);
-        
         $('#module_category').text(category);   
     }
 
@@ -22,7 +17,6 @@ class Modules {
         core.backend.GET("/modules/category/"+category)
         .then(response => {
             this.printModules(JSON.parse(response));
-            console.log(category);
         });
     }
 
@@ -77,5 +71,7 @@ class Modules {
 
     openModuleView(module) {
         this.widget.loadView("Module", module)
+            console.log(module);
+        }
     }
 }
